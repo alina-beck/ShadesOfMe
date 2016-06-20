@@ -85,4 +85,45 @@ public class PlayerTest {
         player.updateHealth(70);
         assertEquals(player.maxHealth, player.currentHealth);
     }
+
+    @Test
+    public void decreaseSatietyAccordingToTimePassed() {
+        player.updateSatietyByTime(30);
+        assertEquals(44, player.currentSatiety);
+    }
+
+    @Test
+    public void decreaseEnergyAccordingToTimePassed() {
+        player.updateEnergyByTime(30);
+        assertEquals(46, player.currentEnergy);
+    }
+
+    @Test
+    public void energyDecreasesAtDoubleRateWhenSatietyIsZero() {
+        player.currentSatiety = 0;
+        player.updateEnergyByTime(30);
+        assertEquals(43, player.currentEnergy);
+    }
+
+    @Test
+    public void healthDoesGenerallyNotIncreaseOrDecreaseOverTime() {
+        player.updateHealthByTime(30);
+        assertEquals(50, player.currentHealth);
+    }
+
+    @Test
+    public void healthIncreasesOverTimeWhenEnergyAndSatietyAreAboveNinety() {
+        player.currentSatiety = 91;
+        player.currentEnergy = 99;
+        player.updateHealthByTime(30);
+        assertEquals(54, player.currentHealth);
+    }
+
+    @Test
+    public void healthDecreasesOverTimeWhenEnergyAndSatietyAreZero() {
+        player.currentSatiety = 0;
+        player.currentEnergy = 0;
+        player.updateHealthByTime(30);
+        assertEquals(44, player.currentHealth);
+    }
 }

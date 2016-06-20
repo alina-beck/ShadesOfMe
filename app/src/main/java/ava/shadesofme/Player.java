@@ -48,4 +48,30 @@ public class Player {
         isAlive = (currentHealth > 0);
     }
 
+    public void updateSatietyByTime(int minutes) {
+        int satietyDecrease = (int) Math.round(minutes * 0.2);
+        updateSatiety(-satietyDecrease);
+    }
+
+    public void updateEnergyByTime(int minutes) {
+        int energyDecrease;
+        if (currentSatiety == 0) {
+            energyDecrease = (int) Math.round(minutes * 0.12 * 2);
+        }
+        else {
+            energyDecrease = (int) Math.round(minutes * 0.12);
+        }
+        updateEnergy(-energyDecrease);
+    }
+
+    public void updateHealthByTime(int minutes) {
+        int healthChange = 0;
+        if (currentSatiety > 90 && currentEnergy > 90) {
+            healthChange = (int) Math.round(minutes * 0.12);
+        }
+        else if (currentSatiety == 0 && currentEnergy == 0) {
+            healthChange = -(int) Math.round(minutes * 0.2);
+        }
+        updateHealth(healthChange);
+    }
 }
