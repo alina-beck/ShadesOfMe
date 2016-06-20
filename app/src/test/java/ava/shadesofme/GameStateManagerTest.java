@@ -2,16 +2,19 @@ package ava.shadesofme;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
 
 public class GameStateManagerTest {
 
     private GameStateManager gameStateManager;
+    private Player player = Mockito.mock(Player.class);
 
     @Before
     public void setUp() {
-        gameStateManager = new GameStateManager();
+        gameStateManager = new GameStateManager(player);
         gameStateManager.setCurrentTime("14:00");
     }
 
@@ -31,5 +34,11 @@ public class GameStateManagerTest {
     public void currentGameTimeAdvancesPastTwentyFourHours() {
         gameStateManager.advanceBy(690);
         assertEquals("01:30", gameStateManager.currentTime);
+    }
+
+    @Test
+    public void updatesPlayerStatsWhenTimeAdvances() {
+        gameStateManager.advanceBy(30);
+        verify(player).updateStats(30);
     }
 }

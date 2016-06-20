@@ -5,6 +5,11 @@ import java.util.Locale;
 public class GameStateManager {
 
     public String currentTime;
+    private Player player;
+
+    public GameStateManager(Player player) {
+        this.player = player;
+    }
 
     public void setCurrentTime(String currentTime) {
         this.currentTime = currentTime;
@@ -24,6 +29,7 @@ public class GameStateManager {
         }
 
         setCurrentTime(currentHours, currentMinutes);
+        player.updateStats(minutes);
     }
 
     private int getCurrentHours() {
