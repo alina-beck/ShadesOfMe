@@ -2,13 +2,13 @@ package ava.shadesofme;
 
 public class Player {
 
-    public int currentSatiety;
-    public int currentEnergy;
-    public int currentHealth;
-    public boolean isAlive;
-    public int maxSatiety;
-    public int maxEnergy;
-    public int maxHealth;
+    private int currentSatiety;
+    private int currentEnergy;
+    private int currentHealth;
+    private boolean isAlive;
+    private int maxSatiety;
+    private int maxEnergy;
+    private int maxHealth;
 
     public Player(int startingSatiety, int maxSatiety, int startingEnergy, int maxEnergy, int startingHealth, int maxHealth) {
         this.currentSatiety = startingSatiety;
@@ -21,31 +21,31 @@ public class Player {
     }
 
     public void updateSatiety(int satietyChange) {
-        currentSatiety += satietyChange;
-        if (currentSatiety > maxSatiety) {
-            currentSatiety = maxSatiety;
+        currentSatiety = getCurrentSatiety() + satietyChange;
+        if (getCurrentSatiety() > getMaxSatiety()) {
+            currentSatiety = getMaxSatiety();
         }
-        if (currentSatiety < 0) {
+        if (getCurrentSatiety() < 0) {
             currentSatiety = 0;
         }
     }
 
     public void updateEnergy(int energyChange) {
-        currentEnergy += energyChange;
-        if (currentEnergy > maxEnergy) {
-            currentEnergy = maxEnergy;
+        currentEnergy = getCurrentEnergy() + energyChange;
+        if (getCurrentEnergy() > getMaxEnergy()) {
+            currentEnergy = getMaxEnergy();
         }
-        if (currentEnergy < 0) {
+        if (getCurrentEnergy() < 0) {
             currentEnergy = 0;
         }
     }
 
     public void updateHealth(int healthChange) {
-        currentHealth += healthChange;
-        if (currentHealth > maxHealth) {
-            currentHealth = maxHealth;
+        currentHealth = getCurrentHealth() + healthChange;
+        if (getCurrentHealth() > getMaxHealth()) {
+            currentHealth = getMaxHealth();
         }
-        isAlive = (currentHealth > 0);
+        isAlive = (getCurrentHealth() > 0);
     }
 
     private void updateSatietyByTime(int minutes) {
@@ -55,7 +55,7 @@ public class Player {
 
     private void updateEnergyByTime(int minutes) {
         int energyDecrease;
-        if (currentSatiety == 0) {
+        if (getCurrentSatiety() == 0) {
             energyDecrease = (int) Math.round(minutes * 0.12 * 2);
         }
         else {
@@ -66,10 +66,10 @@ public class Player {
 
     public void updateHealthByTime(int minutes) {
         int healthChange = 0;
-        if (currentSatiety > 90 && currentEnergy > 90) {
+        if (getCurrentSatiety() > 90 && getCurrentEnergy() > 90) {
             healthChange = (int) Math.round(minutes * 0.12);
         }
-        else if (currentSatiety == 0 && currentEnergy == 0) {
+        else if (getCurrentSatiety() == 0 && getCurrentEnergy() == 0) {
             healthChange = -(int) Math.round(minutes * 0.2);
         }
         updateHealth(healthChange);
@@ -79,5 +79,41 @@ public class Player {
         updateSatietyByTime(minutes);
         updateEnergyByTime(minutes);
         updateHealthByTime(minutes);
+    }
+
+    public int getCurrentSatiety() {
+        return currentSatiety;
+    }
+
+    public void setCurrentSatiety(int currentSatiety) {
+        this.currentSatiety = currentSatiety;
+    }
+
+    public int getCurrentEnergy() {
+        return currentEnergy;
+    }
+
+    public void setCurrentEnergy(int currentEnergy) {
+        this.currentEnergy = currentEnergy;
+    }
+
+    public int getCurrentHealth() {
+        return currentHealth;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public int getMaxSatiety() {
+        return maxSatiety;
+    }
+
+    public int getMaxEnergy() {
+        return maxEnergy;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
     }
 }

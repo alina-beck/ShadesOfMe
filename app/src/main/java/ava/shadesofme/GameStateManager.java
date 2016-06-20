@@ -4,15 +4,14 @@ import java.util.Locale;
 
 public class GameStateManager {
 
-    public String currentTime;
+    private String currentTime;
     private Player player;
+    private Location currentLocation;
 
-    public GameStateManager(Player player) {
-        this.player = player;
-    }
-
-    public void setCurrentTime(String currentTime) {
+    public GameStateManager(String currentTime, Player player, Location location) {
         this.currentTime = currentTime;
+        this.player = player;
+        this.currentLocation = location;
     }
 
     public void advanceBy(int minutes) {
@@ -44,5 +43,18 @@ public class GameStateManager {
 
     private void setCurrentTime(int hours, int minutes) {
         currentTime = String.format(Locale.getDefault(), "%02d:%02d", hours, minutes);
+    }
+
+    public void goTo(Location newLocation, int minutes) {
+        advanceBy(minutes);
+        currentLocation = newLocation;
+    }
+
+    public String getCurrentTime() {
+        return currentTime;
+    }
+
+    public Location getCurrentLocation() {
+        return currentLocation;
     }
 }
