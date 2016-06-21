@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
@@ -35,9 +36,22 @@ public class LocationTest {
     }
 
     @Test
+    public void whenSearchedLocationUpdatesItsState() {
+        location.search();
+        assertTrue(location.isSearched());
+    }
+
+    @Test
     public void searchTimeIsCalculatedFromNumberOfItems() {
         items.add(Mockito.mock(Item.class));
         location.search();
         verify(gameStateManager).advanceBy(50);
+    }
+
+    @Test
+    public void whenLocationHasBeenSearchedItReturnsItemsImmediately() {
+        location.setSearched(true);
+        location.search();
+        verify(gameStateManager, never()).advanceBy(Mockito.anyInt());
     }
 }

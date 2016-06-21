@@ -57,4 +57,7 @@ public class GameStateManager {
     public Location getCurrentLocation() {
         return currentLocation;
     }
+
+    public void useItem(Item item) {
+    }
 }
