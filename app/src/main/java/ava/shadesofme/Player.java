@@ -1,5 +1,7 @@
 package ava.shadesofme;
 
+import java.util.List;
+
 public class Player {
 
     private int currentSatiety;
@@ -9,8 +11,10 @@ public class Player {
     private int maxSatiety;
     private int maxEnergy;
     private int maxHealth;
+    private List<EquipmentSlot> equipmentSlots;
 
-    public Player(int startingSatiety, int maxSatiety, int startingEnergy, int maxEnergy, int startingHealth, int maxHealth) {
+    public Player(int startingSatiety, int maxSatiety, int startingEnergy, int maxEnergy, int startingHealth, int maxHealth,
+                  List<EquipmentSlot> equipmentSlots) {
         this.currentSatiety = startingSatiety;
         this.currentEnergy = startingEnergy;
         this.currentHealth = startingHealth;
@@ -18,6 +22,7 @@ public class Player {
         this.maxSatiety = maxSatiety;
         this.maxEnergy = maxEnergy;
         this.maxHealth = maxHealth;
+        this.equipmentSlots = equipmentSlots;
     }
 
     public void updateSatiety(int satietyChange) {
@@ -115,5 +120,9 @@ public class Player {
 
     public int getMaxHealth() {
         return maxHealth;
+    }
+
+    public List<EquipmentSlot> getEquipmentSlots() {
+        return equipmentSlots;
     }
 }

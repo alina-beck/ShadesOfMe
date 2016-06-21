@@ -2,16 +2,24 @@ package ava.shadesofme;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class PlayerTest {
 
     private Player player;
+    private List<EquipmentSlot> equipmentSlots = new ArrayList<>();
 
     @Before
     public void setUp() {
-        player = new Player(50, 100, 50, 100, 50, 100);
+        equipmentSlots.add(Mockito.mock(EquipmentSlot.class));
+        equipmentSlots.add(Mockito.mock(EquipmentSlot.class));
+        equipmentSlots.add(Mockito.mock(EquipmentSlot.class));
+        player = new Player(50, 100, 50, 100, 50, 100, equipmentSlots);
     }
 
     @Test

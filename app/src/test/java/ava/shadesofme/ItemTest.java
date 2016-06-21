@@ -27,6 +27,7 @@ public class ItemTest {
     @Test
     public void alertsLocationWhenPickedUp() {
         // TODO: or should it be the other way round?
+        // TODO: remove from location only if pickUp was successful
     }
 
     @Test
@@ -37,6 +38,7 @@ public class ItemTest {
 
     @Test
     public void alertsEquipmentManagerWhenUsed() {
+        // TODO: distinguish between reusable and single-use items
         item.use();
         verify(equipmentManager).remove(item);
     }
