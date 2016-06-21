@@ -15,7 +15,7 @@ public class ItemTest {
 
     @Before
     public void setUp() {
-        item = new Item(equipmentManager, gameStateManager, upgradeStage);
+        item = new Item(equipmentManager, gameStateManager, upgradeStage, 30, 60, 10, 3, 0);
     }
 
     @Test
@@ -50,5 +50,11 @@ public class ItemTest {
     @Test
     public void doesNotUpgradeUnlessAllConditionsAreMet() {
         // TODO: how to set and check for conditions?
+    }
+
+    @Test
+    public void advancesTimeOnUpgrade() {
+        item.upgrade();
+        verify(gameStateManager).advanceBy(Mockito.anyInt());
     }
 }

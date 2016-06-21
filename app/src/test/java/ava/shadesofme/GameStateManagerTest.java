@@ -6,12 +6,14 @@ import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class GameStateManagerTest {
 
     private GameStateManager gameStateManager;
     private Player player = Mockito.mock(Player.class);
     private Location location = Mockito.mock(Location.class);
+    private Item item = Mockito.mock(Item.class);
 
     @Before
     public void setUp() {
@@ -47,5 +49,30 @@ public class GameStateManagerTest {
         Location newLocation = Mockito.mock(Location.class);
         gameStateManager.goTo(newLocation, 30);
         assertEquals(newLocation, gameStateManager.getCurrentLocation());
+    }
+
+    @Test
+    public void timeAdvancesOnItemUse() {
+        when(item.getUseTime()).thenReturn(30);
+        gameStateManager.useItem(item);
+        assertEquals("14:30", gameStateManager.getCurrentTime());
+    }
+
+    @Test
+    public void satietyIsUpdatedOnItemUse() {
+        gameStateManager.useItem(item);
+        verify(player).updateSatiety(Mockito.anyInt());
+    }
+
+    @Test
+    public void energyIsUpdatedOnItemUse() {
+        gameStateManager.useItem(item);
+        verify(player).updateEnergy(Mockito.anyInt());
+    }
+
+    @Test
+    public void healthIsUpdatedOnItemUse() {
+        gameStateManager.useItem(item);
+        verify(player).updateEnergy(Mockito.anyInt());
     }
 }
