@@ -15,7 +15,7 @@ public class ItemTest {
 
     @Before
     public void setUp() {
-        item = new Item(equipmentManager, gameStateManager, upgradeStage, 30, 60, 10, 3, 0);
+        item = new Item(equipmentManager, gameStateManager, upgradeStage, 30, 60, 10, 3, 0, 5, 5, 1);
     }
 
     @Test

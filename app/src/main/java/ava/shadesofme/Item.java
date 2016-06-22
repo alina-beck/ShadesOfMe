@@ -10,9 +10,13 @@ public class Item {
     private int satietyEffect;
     private int energyEffect;
     private int healthEffect;
+    private int weight;
+    private int volume;
+    private int stackable;
 
     public Item(EquipmentManager equipmentManager, GameStateManager gameStateManager, Item upgradeStage,
-                int useTime, int upgradeTime, int satietyEffect, int energyEffect, int healthEffect) {
+                int useTime, int upgradeTime, int satietyEffect, int energyEffect, int healthEffect,
+                int weight, int volume, int stackable) {
         this.equipmentManager = equipmentManager;
         this.gameStateManager = gameStateManager;
         this.upgradeStage = upgradeStage;
@@ -21,6 +25,9 @@ public class Item {
         this.satietyEffect = satietyEffect;
         this.energyEffect = energyEffect;
         this.healthEffect = healthEffect;
+        this.weight = weight;
+        this.volume = volume;
+        this.stackable = stackable;
     }
 
     public void pickUp() {
@@ -51,5 +58,17 @@ public class Item {
 
     public int getHealthEffect() {
         return healthEffect;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public int getStackable() {
+        return stackable;
     }
 }
