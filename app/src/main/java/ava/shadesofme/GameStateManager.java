@@ -64,4 +64,8 @@ public class GameStateManager {
         player.updateEnergy(item.getEnergyEffect());
         player.updateHealth(item.getHealthEffect());
     }
+
+    public Player getPlayer() {
+        return player;
+    }
 }
