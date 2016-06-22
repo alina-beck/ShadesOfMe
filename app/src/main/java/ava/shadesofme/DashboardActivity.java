@@ -11,6 +11,9 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    public void displayCurrentTime(String s) {
+    }
+
     public void displayMaxSatiety(int i) {
     }
 
@@ -28,4 +31,5 @@ public class DashboardActivity extends AppCompatActivity {
 
     public void displayCurrentHealth(int i) {
     }
+
 }

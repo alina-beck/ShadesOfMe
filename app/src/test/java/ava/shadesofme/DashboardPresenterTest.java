@@ -12,18 +12,25 @@ public class DashboardPresenterTest {
     private DashboardPresenter presenter;
     private DashboardActivity mockActivity = Mockito.mock(DashboardActivity.class);
     private Player mockPlayer = Mockito.mock(Player.class);
-    private GameStateManager gameStateManager = Mockito.mock(GameStateManager.class);
+    private GameStateManager mockGameStateManager = Mockito.mock(GameStateManager.class);
 
     @Before
     public void setUp() {
-        presenter = new DashboardPresenter(mockActivity, gameStateManager);
-        when(gameStateManager.getPlayer()).thenReturn(mockPlayer);
+        presenter = new DashboardPresenter(mockActivity, mockGameStateManager);
+        when(mockGameStateManager.getPlayer()).thenReturn(mockPlayer);
     }
 
     private void setUpMockPlayerReturningCurrentStats() {
         when(mockPlayer.getCurrentSatiety()).thenReturn(30);
         when(mockPlayer.getCurrentEnergy()).thenReturn(30);
         when(mockPlayer.getCurrentHealth()).thenReturn(80);
+    }
+
+    @Test
+    public void displayCurrentTimeOnCreate() {
+        when(mockGameStateManager.getCurrentTime()).thenReturn("19:00");
+        presenter.onActivityCreated();
+        verify(mockActivity).displayCurrentTime("19:00");
     }
 
     @Test
@@ -66,6 +73,12 @@ public class DashboardPresenterTest {
         setUpMockPlayerReturningCurrentStats();
         presenter.onActivityCreated();
         verify(mockActivity).displayCurrentHealth(80);
+    }
+
+    @Test
+    public void updateTimeWhenAlerted() {
+        presenter.updateTime("21:00");
+        verify(mockActivity).displayCurrentTime("21:00");
     }
 
     @Test

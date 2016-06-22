@@ -11,13 +11,14 @@ import static org.mockito.Mockito.when;
 public class GameStateManagerTest {
 
     private GameStateManager gameStateManager;
-    private Player player = Mockito.mock(Player.class);
-    private Location location = Mockito.mock(Location.class);
-    private Item item = Mockito.mock(Item.class);
+    private Player mockPlayer = Mockito.mock(Player.class);
+    private Location mockLocation = Mockito.mock(Location.class);
+    private Item mockItem = Mockito.mock(Item.class);
+    private DashboardPresenter mockDashboardPresenter = Mockito.mock(DashboardPresenter.class);
 
     @Before
     public void setUp() {
-        gameStateManager = new GameStateManager("14:00", player, location);
+        gameStateManager = new GameStateManager("14:00", mockPlayer, mockLocation, mockDashboardPresenter);
     }
 
     @Test
@@ -39,9 +40,21 @@ public class GameStateManagerTest {
     }
 
     @Test
+    public void alertsPresenterToUpdateTimeDisplay() {
+        gameStateManager.advanceBy(30);
+        verify(mockDashboardPresenter).updateTime("14:30");
+    }
+
+    @Test
     public void updatesPlayerStatsWhenTimeAdvances() {
         gameStateManager.advanceBy(30);
-        verify(player).updateStats(30);
+        verify(mockPlayer).updateStats(30);
+    }
+
+    @Test
+    public void alertsPresenterToUpdatePlayerStatsDisplay() {
+        gameStateManager.advanceBy(30);
+        verify(mockDashboardPresenter).updatePlayerStats(mockPlayer);
     }
 
     @Test
@@ -53,26 +66,26 @@ public class GameStateManagerTest {
 
     @Test
     public void timeAdvancesOnItemUse() {
-        when(item.getUseTime()).thenReturn(30);
-        gameStateManager.useItem(item);
+        when(mockItem.getUseTime()).thenReturn(30);
+        gameStateManager.useItem(mockItem);
         assertEquals("14:30", gameStateManager.getCurrentTime());
     }
 
     @Test
     public void satietyIsUpdatedOnItemUse() {
-        gameStateManager.useItem(item);
-        verify(player).updateSatiety(Mockito.anyInt());
+        gameStateManager.useItem(mockItem);
+        verify(mockPlayer).updateSatiety(Mockito.anyInt());
     }
 
     @Test
     public void energyIsUpdatedOnItemUse() {
-        gameStateManager.useItem(item);
-        verify(player).updateEnergy(Mockito.anyInt());
+        gameStateManager.useItem(mockItem);
+        verify(mockPlayer).updateEnergy(Mockito.anyInt());
     }
 
     @Test
     public void healthIsUpdatedOnItemUse() {
-        gameStateManager.useItem(item);
-        verify(player).updateEnergy(Mockito.anyInt());
+        gameStateManager.useItem(mockItem);
+        verify(mockPlayer).updateEnergy(Mockito.anyInt());
     }
 }

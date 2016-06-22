@@ -10,6 +10,8 @@ public class DashboardPresenter {
         this.gameStateManager = gameStateManager;
     }
     public void onActivityCreated() {
+        activity.displayCurrentTime(gameStateManager.getCurrentTime());
+
         Player player = gameStateManager.getPlayer();
 
         activity.displayMaxSatiety(player.getMaxSatiety());
@@ -25,4 +27,7 @@ public class DashboardPresenter {
         activity.displayCurrentHealth(mockPlayer.getCurrentHealth());
     }
 
+    public void updateTime(String newTime) {
+        activity.displayCurrentTime(newTime);
+    }
 }

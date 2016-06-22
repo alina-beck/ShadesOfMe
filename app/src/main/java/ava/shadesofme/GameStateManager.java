@@ -7,11 +7,13 @@ public class GameStateManager {
     private String currentTime;
     private Player player;
     private Location currentLocation;
+    private DashboardPresenter dashboardPresenter;
 
-    public GameStateManager(String currentTime, Player player, Location location) {
+    public GameStateManager(String currentTime, Player player, Location location, DashboardPresenter dashboardPresenter) {
         this.currentTime = currentTime;
         this.player = player;
         this.currentLocation = location;
+        this.dashboardPresenter = dashboardPresenter;
     }
 
     public void advanceBy(int minutes) {
@@ -29,6 +31,9 @@ public class GameStateManager {
 
         setCurrentTime(currentHours, currentMinutes);
         player.updateStats(minutes);
+
+        dashboardPresenter.updateTime(getCurrentTime());
+        dashboardPresenter.updatePlayerStats(player);
     }
 
     private int getCurrentHours() {
