@@ -13,11 +13,15 @@ public class DashboardPresenterTest {
     private DashboardActivity mockActivity = Mockito.mock(DashboardActivity.class);
     private Player mockPlayer = Mockito.mock(Player.class);
     private GameStateManager mockGameStateManager = Mockito.mock(GameStateManager.class);
+    private Location mockLocation = Mockito.mock(Location.class);
 
     @Before
     public void setUp() {
-        presenter = new DashboardPresenter(mockActivity, mockGameStateManager);
+        presenter = new DashboardPresenter(mockActivity);
+        presenter.setGameStateManager(mockGameStateManager);
         when(mockGameStateManager.getPlayer()).thenReturn(mockPlayer);
+        when(mockGameStateManager.getCurrentLocation()).thenReturn(mockLocation);
+        when(mockLocation.getName()).thenReturn("Test Location");
     }
 
     private void setUpMockPlayerReturningCurrentStats() {
@@ -31,6 +35,12 @@ public class DashboardPresenterTest {
         when(mockGameStateManager.getCurrentTime()).thenReturn("19:00");
         presenter.onActivityCreated();
         verify(mockActivity).displayCurrentTime("19:00");
+    }
+
+    @Test
+    public void displayCurrentLocationOnCreate() {
+        presenter.onActivityCreated();
+        verify(mockActivity).displayCurrentLocation("Test Location");
     }
 
     @Test

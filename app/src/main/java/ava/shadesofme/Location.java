@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 public class Location {
 
+    private String name;
     private ArrayList<Item> items;
     private boolean isSearched;
 
-    public Location(ArrayList<Item> items) {
+    public Location(String name, ArrayList<Item> items) {
+        this.name = name;
         this.items = items;
         this.isSearched = false;
     }
@@ -22,5 +24,9 @@ public class Location {
 
     public ArrayList<Item> getItems() {
         return items;
+    }
+
+    public String getName() {
+        return name;
     }
 }

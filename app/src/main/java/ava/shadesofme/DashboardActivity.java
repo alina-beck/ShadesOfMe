@@ -10,12 +10,23 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        Initialiser initialiser = new Initialiser(this);
+        DashboardPresenter presenter = initialiser.startGame();
+        presenter.onActivityCreated();
     }
 
     public void displayCurrentTime(String currentTime) {
         TextView timeDisplay = (TextView) findViewById(R.id.text_time);
         if (timeDisplay != null) {
             timeDisplay.setText(currentTime);
+        }
+    }
+
+    public void displayCurrentLocation(String currentLocation) {
+        TextView locationDisplay = (TextView) findViewById(R.id.text_location);
+        if (locationDisplay != null) {
+            locationDisplay.setText(currentLocation);
         }
     }
 
@@ -60,5 +71,4 @@ public class DashboardActivity extends AppCompatActivity {
             currentHealthDisplay.setText("Health: " + currentHealth);
         }
     }
-
 }

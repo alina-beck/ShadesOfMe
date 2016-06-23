@@ -5,16 +5,21 @@ public class DashboardPresenter {
     private DashboardActivity activity;
     private GameStateManager gameStateManager;
 
-    public DashboardPresenter(DashboardActivity activity, GameStateManager gameStateManager) {
+    public DashboardPresenter(DashboardActivity activity) {
         this.activity = activity;
+    }
+
+    public void setGameStateManager(GameStateManager gameStateManager) {
         this.gameStateManager = gameStateManager;
     }
 
     public void onActivityCreated() {
         activity.displayCurrentTime(gameStateManager.getCurrentTime());
 
-        Player player = gameStateManager.getPlayer();
+        String currentLocationName = gameStateManager.getCurrentLocation().getName();
+        activity.displayCurrentLocation(currentLocationName);
 
+        Player player = gameStateManager.getPlayer();
         activity.displayMaxSatiety(player.getMaxSatiety());
         activity.displayMaxEnergy(player.getMaxEnergy());
         activity.displayMaxHealth(player.getMaxHealth());
