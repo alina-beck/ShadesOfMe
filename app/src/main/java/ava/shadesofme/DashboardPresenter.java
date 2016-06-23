@@ -9,6 +9,7 @@ public class DashboardPresenter {
         this.activity = activity;
         this.gameStateManager = gameStateManager;
     }
+
     public void onActivityCreated() {
         activity.displayCurrentTime(gameStateManager.getCurrentTime());
 

@@ -5,22 +5,11 @@ import java.util.ArrayList;
 public class Location {
 
     private ArrayList<Item> items;
-    private GameStateManager gameStateManager;
     private boolean isSearched;
 
-    public Location(ArrayList<Item> items, GameStateManager gameStateManager) {
+    public Location(ArrayList<Item> items) {
         this.items = items;
-        this.gameStateManager = gameStateManager;
         this.isSearched = false;
-    }
-
-    public ArrayList<Item> search() {
-        if (!isSearched) {
-            int searchTime = 30 + (items.size() * 5);
-            gameStateManager.advanceBy(searchTime);
-            isSearched = true;
-        }
-        return items;
     }
 
     public boolean isSearched() {
@@ -29,5 +18,9 @@ public class Location {
 
     public void setSearched(boolean searched) {
         this.isSearched = searched;
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
     }
 }
