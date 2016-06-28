@@ -44,32 +44,32 @@ public class DashboardViewModelTest {
 
     @Test
     public void setsUpMaxSatietyInConstructor() {
-        assertEquals(100, dashboardViewModel.getMaxSatiety());
+        assertEquals("100", dashboardViewModel.getMaxSatiety());
     }
 
     @Test
     public void setsUpMaxEnergyInConstructor() {
-        assertEquals(100, dashboardViewModel.getMaxEnergy());
+        assertEquals("100", dashboardViewModel.getMaxEnergy());
     }
 
     @Test
     public void setsUpMaxHealthInConstructor() {
-        assertEquals(100, dashboardViewModel.getMaxHealth());
+        assertEquals("100", dashboardViewModel.getMaxHealth());
     }
 
     @Test
     public void setsUpCurrentSatietyInConstructor() {
-        assertEquals(30, dashboardViewModel.getCurrentSatiety());
+        assertEquals("30", dashboardViewModel.getCurrentSatiety());
     }
 
     @Test
     public void setsUpCurrentEnergyInConstructor() {
-        assertEquals(50, dashboardViewModel.getCurrentEnergy());
+        assertEquals("50", dashboardViewModel.getCurrentEnergy());
     }
 
     @Test
     public void setsUpCurrentHealthInConstructor() {
-        assertEquals(80, dashboardViewModel.getCurrentHealth());
+        assertEquals("80", dashboardViewModel.getCurrentHealth());
     }
 
 }

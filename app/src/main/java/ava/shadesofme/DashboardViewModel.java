@@ -7,24 +7,24 @@ public class DashboardViewModel implements Parcelable {
 
     private String currentLocation;
     private String currentTime;
-    private int maxSatiety;
-    private int maxEnergy;
-    private int maxHealth;
-    private int currentSatiety;
-    private int currentEnergy;
-    private int currentHealth;
+    private String maxSatiety;
+    private String maxEnergy;
+    private String maxHealth;
+    private String currentSatiety;
+    private String currentEnergy;
+    private String currentHealth;
 
     public DashboardViewModel(GameStateManager gameStateManager) {
         this.currentLocation = gameStateManager.getCurrentLocation().getName();
         this.currentTime = gameStateManager.getCurrentTime();
 
         Player player = gameStateManager.getPlayer();
-        this.maxSatiety = player.getMaxSatiety();
-        this.maxEnergy = player.getMaxEnergy();
-        this.maxHealth = player.getMaxHealth();
-        this.currentSatiety = player.getCurrentSatiety();
-        this.currentEnergy = player.getCurrentEnergy();
-        this.currentHealth = player.getCurrentHealth();
+        this.maxSatiety = String.valueOf(player.getMaxSatiety());
+        this.maxEnergy = String.valueOf(player.getMaxEnergy());
+        this.maxHealth = String.valueOf(player.getMaxHealth());
+        this.currentSatiety = String.valueOf(player.getCurrentSatiety());
+        this.currentEnergy = String.valueOf(player.getCurrentEnergy());
+        this.currentHealth = String.valueOf(player.getCurrentHealth());
     }
 
     public String getCurrentLocation() {
@@ -35,27 +35,27 @@ public class DashboardViewModel implements Parcelable {
         return currentTime;
     }
 
-    public int getMaxSatiety() {
+    public String getMaxSatiety() {
         return maxSatiety;
     }
 
-    public int getMaxEnergy() {
+    public String getMaxEnergy() {
         return maxEnergy;
     }
 
-    public int getMaxHealth() {
+    public String getMaxHealth() {
         return maxHealth;
     }
 
-    public int getCurrentSatiety() {
+    public String getCurrentSatiety() {
         return currentSatiety;
     }
 
-    public int getCurrentEnergy() {
+    public String getCurrentEnergy() {
         return currentEnergy;
     }
 
-    public int getCurrentHealth() {
+    public String getCurrentHealth() {
         return currentHealth;
     }
 
@@ -68,12 +68,12 @@ public class DashboardViewModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(currentLocation);
         dest.writeString(currentTime);
-        dest.writeInt(maxSatiety);
-        dest.writeInt(maxEnergy);
-        dest.writeInt(maxHealth);
-        dest.writeInt(currentSatiety);
-        dest.writeInt(currentEnergy);
-        dest.writeInt(currentHealth);
+        dest.writeString(maxSatiety);
+        dest.writeString(maxEnergy);
+        dest.writeString(maxHealth);
+        dest.writeString(currentSatiety);
+        dest.writeString(currentEnergy);
+        dest.writeString(currentHealth);
     }
 
     public static final Parcelable.Creator<DashboardViewModel> CREATOR = new Parcelable.Creator<DashboardViewModel>() {
@@ -89,12 +89,12 @@ public class DashboardViewModel implements Parcelable {
     private DashboardViewModel(Parcel in) {
         this.currentLocation = in.readString();
         this.currentTime = in.readString();
-        this.maxSatiety = in.readInt();
-        this.maxEnergy = in.readInt();
-        this.maxHealth = in.readInt();
-        this.currentSatiety = in.readInt();
-        this.currentEnergy = in.readInt();
-        this.currentHealth = in.readInt();
+        this.maxSatiety = in.readString();
+        this.maxEnergy = in.readString();
+        this.maxHealth = in.readString();
+        this.currentSatiety = in.readString();
+        this.currentEnergy = in.readString();
+        this.currentHealth = in.readString();
     }
 
     @Override
@@ -104,15 +104,21 @@ public class DashboardViewModel implements Parcelable {
 
         DashboardViewModel that = (DashboardViewModel) o;
 
-        if (maxSatiety != that.maxSatiety) return false;
-        if (maxEnergy != that.maxEnergy) return false;
-        if (maxHealth != that.maxHealth) return false;
-        if (currentSatiety != that.currentSatiety) return false;
-        if (currentEnergy != that.currentEnergy) return false;
-        if (currentHealth != that.currentHealth) return false;
         if (currentLocation != null ? !currentLocation.equals(that.currentLocation) : that.currentLocation != null)
             return false;
-        return currentTime != null ? currentTime.equals(that.currentTime) : that.currentTime == null;
+        if (currentTime != null ? !currentTime.equals(that.currentTime) : that.currentTime != null)
+            return false;
+        if (maxSatiety != null ? !maxSatiety.equals(that.maxSatiety) : that.maxSatiety != null)
+            return false;
+        if (maxEnergy != null ? !maxEnergy.equals(that.maxEnergy) : that.maxEnergy != null)
+            return false;
+        if (maxHealth != null ? !maxHealth.equals(that.maxHealth) : that.maxHealth != null)
+            return false;
+        if (currentSatiety != null ? !currentSatiety.equals(that.currentSatiety) : that.currentSatiety != null)
+            return false;
+        if (currentEnergy != null ? !currentEnergy.equals(that.currentEnergy) : that.currentEnergy != null)
+            return false;
+        return currentHealth != null ? currentHealth.equals(that.currentHealth) : that.currentHealth == null;
 
     }
 
@@ -120,12 +126,12 @@ public class DashboardViewModel implements Parcelable {
     public int hashCode() {
         int result = currentLocation != null ? currentLocation.hashCode() : 0;
         result = 31 * result + (currentTime != null ? currentTime.hashCode() : 0);
-        result = 31 * result + maxSatiety;
-        result = 31 * result + maxEnergy;
-        result = 31 * result + maxHealth;
-        result = 31 * result + currentSatiety;
-        result = 31 * result + currentEnergy;
-        result = 31 * result + currentHealth;
+        result = 31 * result + (maxSatiety != null ? maxSatiety.hashCode() : 0);
+        result = 31 * result + (maxEnergy != null ? maxEnergy.hashCode() : 0);
+        result = 31 * result + (maxHealth != null ? maxHealth.hashCode() : 0);
+        result = 31 * result + (currentSatiety != null ? currentSatiety.hashCode() : 0);
+        result = 31 * result + (currentEnergy != null ? currentEnergy.hashCode() : 0);
+        result = 31 * result + (currentHealth != null ? currentHealth.hashCode() : 0);
         return result;
     }
 }
