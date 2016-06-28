@@ -1,9 +1,14 @@
 package ava.shadesofme;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class DashboardViewModel implements Parcelable {
+import java.util.Observable;
+import java.util.Observer;
+
+public class DashboardViewModel extends BaseObservable implements Parcelable, Observer {
 
     private String currentLocation;
     private String currentTime;
@@ -13,6 +18,7 @@ public class DashboardViewModel implements Parcelable {
     private String currentSatiety;
     private String currentEnergy;
     private String currentHealth;
+    private GameStateManager gameStateManager;
 
     public DashboardViewModel(GameStateManager gameStateManager) {
         this.currentLocation = gameStateManager.getCurrentLocation().getName();
@@ -25,39 +31,95 @@ public class DashboardViewModel implements Parcelable {
         this.currentSatiety = String.valueOf(player.getCurrentSatiety());
         this.currentEnergy = String.valueOf(player.getCurrentEnergy());
         this.currentHealth = String.valueOf(player.getCurrentHealth());
+        this.gameStateManager = gameStateManager;
     }
 
+    /**
+     * Updates after Observable changes
+     */
+
+    @Override
+    public void update(Observable observable, Object data) {
+        if (observable instanceof Player) {
+            Player player = (Player) observable;
+            if (!String.valueOf(player.getCurrentSatiety()).equals(currentSatiety)) {
+                setCurrentSatiety(String.valueOf(player.getCurrentSatiety()));
+            }
+            if (!String.valueOf(player.getCurrentEnergy()).equals(currentEnergy)) {
+                setCurrentEnergy(String.valueOf(player.getCurrentEnergy()));
+            }
+            if (!String.valueOf(player.getCurrentHealth()).equals(currentHealth)) {
+                setCurrentHealth(String.valueOf(player.getCurrentHealth()));
+            }
+        }
+    }
+
+    /**
+     * Bindable Getters
+     */
+
+    @Bindable
     public String getCurrentLocation() {
         return currentLocation;
     }
 
+    @Bindable
     public String getCurrentTime() {
         return currentTime;
     }
 
+    @Bindable
     public String getMaxSatiety() {
         return maxSatiety;
     }
 
+    @Bindable
     public String getMaxEnergy() {
         return maxEnergy;
     }
 
+    @Bindable
     public String getMaxHealth() {
         return maxHealth;
     }
 
+    @Bindable
     public String getCurrentSatiety() {
         return currentSatiety;
     }
 
+    @Bindable
     public String getCurrentEnergy() {
         return currentEnergy;
     }
 
+    @Bindable
     public String getCurrentHealth() {
         return currentHealth;
     }
+
+    /**
+     *  Bindable Setters --> remember to always call notifyPropertyChanged(BR.currentHealth);
+     */
+
+    public void setCurrentSatiety(String currentSatiety) {
+        this.currentSatiety = currentSatiety;
+        notifyPropertyChanged(ava.shadesofme.BR.currentSatiety);
+    }
+
+    public void setCurrentEnergy(String currentEnergy) {
+        this.currentEnergy = currentEnergy;
+        notifyPropertyChanged(ava.shadesofme.BR.currentEnergy);
+    }
+
+    public void setCurrentHealth(String currentHealth) {
+        this.currentHealth = currentHealth;
+        notifyPropertyChanged(ava.shadesofme.BR.currentHealth);
+    }
+
+    /**
+     *  Parcelable stuff, including equals and hashcode
+     */
 
     @Override
     public int describeContents() {
@@ -119,7 +181,6 @@ public class DashboardViewModel implements Parcelable {
         if (currentEnergy != null ? !currentEnergy.equals(that.currentEnergy) : that.currentEnergy != null)
             return false;
         return currentHealth != null ? currentHealth.equals(that.currentHealth) : that.currentHealth == null;
-
     }
 
     @Override
@@ -134,4 +195,9 @@ public class DashboardViewModel implements Parcelable {
         result = 31 * result + (currentHealth != null ? currentHealth.hashCode() : 0);
         return result;
     }
+
+    public void restButtonClicked() {
+        gameStateManager.advanceTimeBy(30);
+    }
+
 }

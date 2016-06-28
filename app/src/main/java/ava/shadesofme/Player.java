@@ -1,8 +1,11 @@
 package ava.shadesofme;
 
 import java.util.List;
+import java.util.Observable;
 
-public class Player {
+public class Player extends Observable {
+
+    // TODO: notify observers when data changes
 
     private int currentSatiety;
     private int currentEnergy;

@@ -1,12 +1,11 @@
 package ava.shadesofme;
 
-import android.os.Parcel;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class DashboardViewModelTest {
@@ -31,6 +30,10 @@ public class DashboardViewModelTest {
         when(mockPlayer.getCurrentHealth()).thenReturn(80);
         dashboardViewModel = new DashboardViewModel(mockGameStateManager);
     }
+
+    /**
+     * Construction
+     */
 
     @Test
     public void setsUpCurrentLocationInConstructor() {
@@ -70,6 +73,41 @@ public class DashboardViewModelTest {
     @Test
     public void setsUpCurrentHealthInConstructor() {
         assertEquals("80", dashboardViewModel.getCurrentHealth());
+    }
+
+    /**
+     * Reactions to user input
+     */
+
+    @Test
+    public void tellsGameStateManagerToUpdateWhenRestClicked() {
+        dashboardViewModel.restButtonClicked();
+        verify(mockGameStateManager).advanceTimeBy(30);
+    }
+
+    /**
+     * Updates when Observable changes
+     */
+
+    @Test
+    public void updatesCurrentSatietyWhenPlayerStatsChange() {
+        when(mockPlayer.getCurrentSatiety()).thenReturn(10);
+        dashboardViewModel.update(mockPlayer, null);
+        assertEquals("10", dashboardViewModel.getCurrentSatiety());
+    }
+
+    @Test
+    public void updatesCurrentEnergyWhenPlayerStatsChange() {
+        when(mockPlayer.getCurrentEnergy()).thenReturn(10);
+        dashboardViewModel.update(mockPlayer, null);
+        assertEquals("10", dashboardViewModel.getCurrentEnergy());
+    }
+
+    @Test
+    public void updatesCurrentHealthWhenPlayerStatsChange() {
+        when(mockPlayer.getCurrentHealth()).thenReturn(10);
+        dashboardViewModel.update(mockPlayer, null);
+        assertEquals("10", dashboardViewModel.getCurrentHealth());
     }
 
 }
