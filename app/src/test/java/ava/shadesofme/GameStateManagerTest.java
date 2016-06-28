@@ -18,11 +18,10 @@ public class GameStateManagerTest {
     private Item mockItem = Mockito.mock(Item.class);
     private ArrayList<Item> mockItems = new ArrayList<>();
     private EquipmentManager equipmentManager = Mockito.mock(EquipmentManager.class);
-    private DashboardPresenter mockDashboardPresenter = Mockito.mock(DashboardPresenter.class);
 
     @Before
     public void setUp() {
-        gameStateManager = new GameStateManager("14:00", mockPlayer, mockLocation, equipmentManager, mockDashboardPresenter);
+        gameStateManager = new GameStateManager("14:00", mockPlayer, mockLocation, equipmentManager);
     }
 
     private void setUpListOfItemsForLocation() {
@@ -173,19 +172,4 @@ public class GameStateManagerTest {
         assertEquals("14:30", gameStateManager.getCurrentTime());
     }
 
-    /**
-     * Alerting Presenter (later to be replaced by Observer pattern)
-     */
-
-    @Test
-    public void alertsPresenterToUpdateTimeDisplay() {
-        gameStateManager.advanceTimeBy(30);
-        verify(mockDashboardPresenter).updateTime("14:30");
-    }
-
-    @Test
-    public void alertsPresenterToUpdatePlayerStatsDisplay() {
-        gameStateManager.advanceTimeBy(30);
-        verify(mockDashboardPresenter).updatePlayerStats(mockPlayer);
-    }
 }

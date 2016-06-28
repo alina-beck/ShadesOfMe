@@ -4,22 +4,23 @@ import java.util.ArrayList;
 
 public class Initialiser {
 
-    private DashboardActivity activity;
+    private MainActivity activity;
+    private DashboardViewModel dashboardViewModel;
     private Player player;
     private Location home;
     private Location town;
     private GameStateManager gameStateManager;
 
-    public Initialiser(DashboardActivity dashboardActivity) {
+    public Initialiser(MainActivity dashboardActivity) {
         this.activity = dashboardActivity;
     }
 
-    public DashboardPresenter startGame() {
-        DashboardPresenter dashboardPresenter = new DashboardPresenter(activity);
+    public void startGame() {
         initPlayer();
         initLocations();
-        initGameStateManager(dashboardPresenter);
-        return dashboardPresenter;
+        initGameStateManager();
+        dashboardViewModel = new DashboardViewModel(gameStateManager);
+        activity.initDashboard(dashboardViewModel);
     }
 
     private void initPlayer() {
@@ -39,10 +40,9 @@ public class Initialiser {
         this.town = new Location("Town", items);
     }
 
-    private void initGameStateManager(DashboardPresenter dashboardPresenter) {
+    private void initGameStateManager() {
         EquipmentManager equipmentManager = new EquipmentManager(player, 50, 50);
-        this.gameStateManager = new GameStateManager("11:00", player, home, equipmentManager, dashboardPresenter);
-        dashboardPresenter.setGameStateManager(gameStateManager);
+        this.gameStateManager = new GameStateManager("11:00", player, home, equipmentManager);
     }
 
 }

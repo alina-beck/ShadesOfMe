@@ -9,15 +9,12 @@ public class GameStateManager {
     private Player player;
     private Location currentLocation;
     private EquipmentManager equipmentManager;
-    private DashboardPresenter dashboardPresenter;
 
-    public GameStateManager(String currentTime, Player player, Location location, EquipmentManager equipmentManager,
-                            DashboardPresenter dashboardPresenter) {
+    public GameStateManager(String currentTime, Player player, Location location, EquipmentManager equipmentManager) {
         this.currentTime = currentTime;
         this.player = player;
         this.currentLocation = location;
         this.equipmentManager = equipmentManager;
-        this.dashboardPresenter = dashboardPresenter;
     }
 
     public void advanceTimeBy(int minutes) {
@@ -36,8 +33,6 @@ public class GameStateManager {
         setCurrentTime(currentHours, currentMinutes);
         player.updateStats(minutes);
 
-        dashboardPresenter.updateTime(getCurrentTime());
-        dashboardPresenter.updatePlayerStats(player);
     }
 
     public void goToLocation(Location newLocation, int minutes) {
