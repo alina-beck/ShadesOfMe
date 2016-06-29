@@ -56,7 +56,7 @@ public class GameStateManagerTest {
     @Test
     public void updatesPlayerStatsWhenTimeAdvances() {
         gameStateManager.advanceTimeBy(30);
-        verify(mockPlayer).updateStats(30);
+        verify(mockPlayer).updateStatsByTime(30);
     }
 
     /**

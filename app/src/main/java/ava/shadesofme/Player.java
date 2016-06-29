@@ -5,7 +5,11 @@ import java.util.Observable;
 
 public class Player extends Observable {
 
-    // TODO: notify observers when data changes
+    private static final double SATIETY_DECREASE_RATE = 0.2;
+    private static final double ENERGY_DECREASE_RATE = 0.12;
+    private static final double HEALTH_REGENERATION_MARGIN = 0.9;
+    private static final double HEALTH_DECREASE_RATE = 0.2;
+    private static final double HEALTH_INCREASE_RATE = 0.12;
 
     private int currentSatiety;
     private int currentEnergy;
@@ -28,66 +32,88 @@ public class Player extends Observable {
         this.equipmentSlots = equipmentSlots;
     }
 
+    public void updateStatsByTime(int minutes) {
+        updateSatiety(calculateSatietyChangeFromTime(minutes));
+        updateEnergy(calculateEnergyChangeFromTime(minutes));
+        updateHealth(calculateHealthChangeFromTime(minutes));
+    }
+
+    /**
+     * Calculating stat changes from a given time
+     */
+
+    private int calculateSatietyChangeFromTime(int minutes) {
+        return -(int) Math.round(minutes * SATIETY_DECREASE_RATE);
+    }
+
+    private int calculateEnergyChangeFromTime(int minutes) {
+        int energyDecrease;
+        if (getCurrentSatiety() == 0) {
+            energyDecrease = -(int) Math.round(minutes * ENERGY_DECREASE_RATE * 2);
+        }
+        else {
+            energyDecrease = -(int) Math.round(minutes * ENERGY_DECREASE_RATE);
+        }
+        return energyDecrease;
+    }
+
+    public int calculateHealthChangeFromTime(int minutes) {
+        int healthChange = 0;
+        if (getCurrentSatiety() > (getMaxSatiety() * HEALTH_REGENERATION_MARGIN)
+                && getCurrentEnergy() > (getMaxEnergy() * HEALTH_REGENERATION_MARGIN)) {
+            healthChange = (int) Math.round(minutes * HEALTH_INCREASE_RATE);
+        }
+        else if (getCurrentSatiety() == 0 && getCurrentEnergy() == 0) {
+            healthChange = -(int) Math.round(minutes * HEALTH_DECREASE_RATE);
+        }
+        return healthChange;
+    }
+
+    /**
+     * Calculating stat changes from a given item
+     */
+
+    /**
+     * Validating and updating stat changes
+     */
+
     public void updateSatiety(int satietyChange) {
-        currentSatiety = getCurrentSatiety() + satietyChange;
-        if (getCurrentSatiety() > getMaxSatiety()) {
-            currentSatiety = getMaxSatiety();
+        int newSatietyLevel = getCurrentSatiety() + satietyChange;
+        if (newSatietyLevel > getMaxSatiety()) {
+            newSatietyLevel = getMaxSatiety();
         }
-        if (getCurrentSatiety() < 0) {
-            currentSatiety = 0;
+        else if (newSatietyLevel < 0) {
+            newSatietyLevel = 0;
         }
+        setCurrentSatiety(newSatietyLevel);
     }
 
     public void updateEnergy(int energyChange) {
-        currentEnergy = getCurrentEnergy() + energyChange;
-        if (getCurrentEnergy() > getMaxEnergy()) {
-            currentEnergy = getMaxEnergy();
+        int newEnergyLevel = getCurrentEnergy() + energyChange;
+        if (newEnergyLevel > getMaxEnergy()) {
+            newEnergyLevel = getMaxEnergy();
         }
-        if (getCurrentEnergy() < 0) {
-            currentEnergy = 0;
+        else if (newEnergyLevel < 0) {
+            newEnergyLevel = 0;
         }
+        setCurrentEnergy(newEnergyLevel);
     }
 
     public void updateHealth(int healthChange) {
-        currentHealth = getCurrentHealth() + healthChange;
-        if (getCurrentHealth() > getMaxHealth()) {
-            currentHealth = getMaxHealth();
+        int newHealthLevel = getCurrentHealth() + healthChange;
+        if (newHealthLevel > getMaxHealth()) {
+            newHealthLevel = getMaxHealth();
         }
-        isAlive = (getCurrentHealth() > 0);
+        else if (newHealthLevel <= 0) {
+            newHealthLevel = 0;
+            setAlive(false);
+        }
+        setCurrentHealth(newHealthLevel);
     }
 
-    private void updateSatietyByTime(int minutes) {
-        int satietyDecrease = (int) Math.round(minutes * 0.2);
-        updateSatiety(-satietyDecrease);
-    }
-
-    private void updateEnergyByTime(int minutes) {
-        int energyDecrease;
-        if (getCurrentSatiety() == 0) {
-            energyDecrease = (int) Math.round(minutes * 0.12 * 2);
-        }
-        else {
-            energyDecrease = (int) Math.round(minutes * 0.12);
-        }
-        updateEnergy(-energyDecrease);
-    }
-
-    public void updateHealthByTime(int minutes) {
-        int healthChange = 0;
-        if (getCurrentSatiety() > 90 && getCurrentEnergy() > 90) {
-            healthChange = (int) Math.round(minutes * 0.12);
-        }
-        else if (getCurrentSatiety() == 0 && getCurrentEnergy() == 0) {
-            healthChange = -(int) Math.round(minutes * 0.2);
-        }
-        updateHealth(healthChange);
-    }
-
-    public void updateStats(int minutes) {
-        updateSatietyByTime(minutes);
-        updateEnergyByTime(minutes);
-        updateHealthByTime(minutes);
-    }
+    /**
+     * Getters and setters
+     */
 
     public int getCurrentSatiety() {
         return currentSatiety;
@@ -95,6 +121,8 @@ public class Player extends Observable {
 
     public void setCurrentSatiety(int currentSatiety) {
         this.currentSatiety = currentSatiety;
+        setChanged();
+        notifyObservers();
     }
 
     public int getCurrentEnergy() {
@@ -103,14 +131,26 @@ public class Player extends Observable {
 
     public void setCurrentEnergy(int currentEnergy) {
         this.currentEnergy = currentEnergy;
+        setChanged();
+        notifyObservers();
     }
 
     public int getCurrentHealth() {
         return currentHealth;
     }
 
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+        setChanged();
+        notifyObservers();
+    }
+
     public boolean isAlive() {
         return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        this.isAlive = alive;
     }
 
     public int getMaxSatiety() {

@@ -31,7 +31,7 @@ public class GameStateManager {
         }
 
         setCurrentTime(currentHours, currentMinutes);
-        player.updateStats(minutes);
+        player.updateStatsByTime(minutes);
 
     }
 

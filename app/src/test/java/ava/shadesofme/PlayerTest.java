@@ -8,11 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class PlayerTest {
 
     private Player player;
     private List<EquipmentSlot> equipmentSlots = new ArrayList<>();
+    private DashboardViewModel mockViewModel = Mockito.mock(DashboardViewModel.class);
 
     @Before
     public void setUp() {
@@ -21,6 +24,10 @@ public class PlayerTest {
         equipmentSlots.add(Mockito.mock(EquipmentSlot.class));
         player = new Player(50, 100, 50, 100, 50, 100, equipmentSlots);
     }
+
+    /**
+     * Stat Updates
+     */
 
     @Test
     public void satietyDecreasesByGivenAmount() {
@@ -96,26 +103,26 @@ public class PlayerTest {
 
     @Test
     public void decreaseSatietyAccordingToTimePassed() {
-        player.updateStats(30);
+        player.updateStatsByTime(30);
         assertEquals(44, player.getCurrentSatiety());
     }
 
     @Test
     public void decreaseEnergyAccordingToTimePassed() {
-        player.updateStats(30);
+        player.updateStatsByTime(30);
         assertEquals(46, player.getCurrentEnergy());
     }
 
     @Test
     public void energyDecreasesAtDoubleRateWhenSatietyIsZero() {
         player.setCurrentSatiety(0);
-        player.updateStats(30);
+        player.updateStatsByTime(30);
         assertEquals(43, player.getCurrentEnergy());
     }
 
     @Test
     public void healthDoesGenerallyNotIncreaseOrDecreaseOverTime() {
-        player.updateStats(30);
+        player.updateStatsByTime(30);
         assertEquals(50, player.getCurrentHealth());
     }
 
@@ -124,7 +131,7 @@ public class PlayerTest {
         //updates Satiety and Energy before Health, so starting values must be high to pass test
         player.setCurrentSatiety(99);
         player.setCurrentEnergy(99);
-        player.updateStats(30);
+        player.updateStatsByTime(30);
         assertEquals(54, player.getCurrentHealth());
     }
 
@@ -132,7 +139,31 @@ public class PlayerTest {
     public void healthDecreasesOverTimeWhenEnergyAndSatietyAreZero() {
         player.setCurrentSatiety(0);
         player.setCurrentEnergy(0);
-        player.updateStats(30);
+        player.updateStatsByTime(30);
         assertEquals(44, player.getCurrentHealth());
+    }
+
+    /**
+     * Observable Stuff
+     */
+
+    @Test
+    public void observersCanRegister() {
+        player.addObserver(mockViewModel);
+        assertEquals(1, player.countObservers());
+    }
+
+    @Test
+    public void observersCanUnregister() {
+        player.addObserver(mockViewModel);
+        player.deleteObserver(mockViewModel);
+        assertEquals(0, player.countObservers());
+    }
+
+    @Test
+    public void observersAreNotifiedUponChange() {
+        player.addObserver(mockViewModel);
+        player.updateStatsByTime(30);
+        verify(mockViewModel, times(3)).update(player, null);
     }
 }
