@@ -117,21 +117,9 @@ public class GameStateManagerTest {
     }
 
     @Test
-    public void satietyIsUpdatedOnItemUse() {
+    public void alertsPlayerWhenItemIsPickedUp() {
         gameStateManager.useItem(mockItem);
-        verify(mockPlayer).updateSatiety(Mockito.anyInt());
-    }
-
-    @Test
-    public void energyIsUpdatedOnItemUse() {
-        gameStateManager.useItem(mockItem);
-        verify(mockPlayer).updateEnergy(Mockito.anyInt());
-    }
-
-    @Test
-    public void healthIsUpdatedOnItemUse() {
-        gameStateManager.useItem(mockItem);
-        verify(mockPlayer).updateEnergy(Mockito.anyInt());
+        verify(mockPlayer).updateStatsWithItem(mockItem);
     }
 
     @Test

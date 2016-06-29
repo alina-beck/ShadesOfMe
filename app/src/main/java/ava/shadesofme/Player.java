@@ -38,6 +38,12 @@ public class Player extends Observable {
         updateHealth(calculateHealthChangeFromTime(minutes));
     }
 
+    public void updateStatsWithItem(Item item) {
+        updateSatiety(item.getSatietyEffect());
+        updateEnergy(item.getEnergyEffect());
+        updateHealth(item.getHealthEffect());
+    }
+
     /**
      * Calculating stat changes from a given time
      */
@@ -57,7 +63,7 @@ public class Player extends Observable {
         return energyDecrease;
     }
 
-    public int calculateHealthChangeFromTime(int minutes) {
+    private int calculateHealthChangeFromTime(int minutes) {
         int healthChange = 0;
         if (getCurrentSatiety() > (getMaxSatiety() * HEALTH_REGENERATION_MARGIN)
                 && getCurrentEnergy() > (getMaxEnergy() * HEALTH_REGENERATION_MARGIN)) {
@@ -70,11 +76,7 @@ public class Player extends Observable {
     }
 
     /**
-     * Calculating stat changes from a given item
-     */
-
-    /**
-     * Validating and updating stat changes
+     * Validating changes and updating stats
      */
 
     public void updateSatiety(int satietyChange) {

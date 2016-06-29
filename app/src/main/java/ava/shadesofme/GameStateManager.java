@@ -51,9 +51,7 @@ public class GameStateManager {
 
     public void useItem(Item item) {
         advanceTimeBy(item.getUseTime());
-        player.updateSatiety(item.getSatietyEffect());
-        player.updateEnergy(item.getEnergyEffect());
-        player.updateHealth(item.getHealthEffect());
+        player.updateStatsWithItem(item);
         equipmentManager.remove(item);
     }
 

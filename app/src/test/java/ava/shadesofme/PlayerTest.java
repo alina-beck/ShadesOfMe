@@ -10,12 +10,14 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class PlayerTest {
 
     private Player player;
     private List<EquipmentSlot> equipmentSlots = new ArrayList<>();
     private DashboardViewModel mockViewModel = Mockito.mock(DashboardViewModel.class);
+    private Item mockItem = Mockito.mock(Item.class);
 
     @Before
     public void setUp() {
@@ -141,6 +143,27 @@ public class PlayerTest {
         player.setCurrentEnergy(0);
         player.updateStatsByTime(30);
         assertEquals(44, player.getCurrentHealth());
+    }
+
+    @Test
+    public void satietyIsUpdatedOnItemUse() {
+        when(mockItem.getSatietyEffect()).thenReturn(20);
+        player.updateStatsWithItem(mockItem);
+        assertEquals(70, player.getCurrentSatiety());
+    }
+
+    @Test
+    public void energyIsUpdatedOnItemUse() {
+        when(mockItem.getEnergyEffect()).thenReturn(20);
+        player.updateStatsWithItem(mockItem);
+        assertEquals(70, player.getCurrentEnergy());
+    }
+
+    @Test
+    public void healthIsUpdatedOnItemUse() {
+        when(mockItem.getHealthEffect()).thenReturn(20);
+        player.updateStatsWithItem(mockItem);
+        assertEquals(70, player.getCurrentHealth());
     }
 
     /**
