@@ -38,10 +38,7 @@ public class Initialiser {
     }
 
     private void initGameStateManager() {
-        ArrayList<EquipmentSlot> equipmentSlots = new ArrayList<>();
-        equipmentSlots.add(new EquipmentSlot(5, 5, false));
-        equipmentSlots.add(new EquipmentSlot(20, 20, true));
-        Equipment equipment = new Equipment(50, 50, equipmentSlots);
+        Equipment equipment = new Equipment(50, 50, 2);
         GameState gameState = new GameState("11:00", home);
         this.gameManager = new GameManager(gameState, player, equipment);
     }

@@ -4,9 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -15,15 +12,11 @@ import static org.mockito.Mockito.when;
 public class PlayerTest {
 
     private Player player;
-    private List<EquipmentSlot> equipmentSlots = new ArrayList<>();
     private DashboardViewModel mockViewModel = Mockito.mock(DashboardViewModel.class);
     private Item mockItem = Mockito.mock(Item.class);
 
     @Before
     public void setUp() {
-        equipmentSlots.add(Mockito.mock(EquipmentSlot.class));
-        equipmentSlots.add(Mockito.mock(EquipmentSlot.class));
-        equipmentSlots.add(Mockito.mock(EquipmentSlot.class));
         player = new Player(50, 100, 50, 100, 50, 100);
     }
 
