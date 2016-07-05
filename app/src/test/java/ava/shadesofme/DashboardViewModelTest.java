@@ -112,4 +112,20 @@ public class DashboardViewModelTest {
         assertEquals("10", dashboardViewModel.getCurrentHealth());
     }
 
+    @Test
+    public void updatesCurrentTimeWhenGameStateChanges() {
+        when(mockGameState.getCurrentTime()).thenReturn("17:00");
+        dashboardViewModel.update(mockGameState, null);
+        assertEquals("17:00", dashboardViewModel.getCurrentTime());
+    }
+
+    @Test
+    public void updatesCurrentLocationWhenGameStateChanges() {
+        Location newLocation = Mockito.mock(Location.class);
+        when(newLocation.getName()).thenReturn("new location");
+        when(mockGameState.getCurrentLocation()).thenReturn(newLocation);
+        dashboardViewModel.update(mockGameState, null);
+        assertEquals("new location", dashboardViewModel.getCurrentLocation());
+    }
+
 }

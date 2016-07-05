@@ -40,16 +40,26 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
 
     @Override
     public void update(Observable observable, Object data) {
-        if (observable instanceof Player) {
+        if(observable instanceof Player) {
             Player player = (Player) observable;
-            if (!String.valueOf(player.getCurrentSatiety()).equals(currentSatiety)) {
+            if(!String.valueOf(player.getCurrentSatiety()).equals(currentSatiety)) {
                 setCurrentSatiety(String.valueOf(player.getCurrentSatiety()));
             }
-            if (!String.valueOf(player.getCurrentEnergy()).equals(currentEnergy)) {
+            if(!String.valueOf(player.getCurrentEnergy()).equals(currentEnergy)) {
                 setCurrentEnergy(String.valueOf(player.getCurrentEnergy()));
             }
-            if (!String.valueOf(player.getCurrentHealth()).equals(currentHealth)) {
+            if(!String.valueOf(player.getCurrentHealth()).equals(currentHealth)) {
                 setCurrentHealth(String.valueOf(player.getCurrentHealth()));
+            }
+        }
+
+        else if(observable instanceof GameState) {
+            GameState gameState = (GameState) observable;
+            if(!gameState.getCurrentTime().equals(currentTime)) {
+                setCurrentTime(gameState.getCurrentTime());
+            }
+            if(!gameState.getCurrentLocation().getName().equals(currentLocation)) {
+                setCurrentLocation(gameState.getCurrentLocation().getName());
             }
         }
     }
@@ -101,6 +111,16 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
     /**
      *  Bindable Setters --> remember to always call notifyPropertyChanged(BR.currentHealth);
      */
+
+    public void setCurrentLocation(String currentLocation) {
+        this.currentLocation = currentLocation;
+        notifyPropertyChanged(ava.shadesofme.BR.currentLocation);
+    }
+
+    public void setCurrentTime(String currentTime) {
+        this.currentTime = currentTime;
+        notifyPropertyChanged(ava.shadesofme.BR.currentTime);
+    }
 
     public void setCurrentSatiety(String currentSatiety) {
         this.currentSatiety = currentSatiety;

@@ -1,8 +1,9 @@
 package ava.shadesofme;
 
 import java.util.Locale;
+import java.util.Observable;
 
-public class GameState {
+public class GameState extends Observable {
 
     private String currentTime;
     private Location currentLocation;
@@ -44,6 +45,8 @@ public class GameState {
 
     private void setCurrentTime(int hours, int minutes) {
         currentTime = String.format(Locale.getDefault(), "%02d:%02d", hours, minutes);
+        setChanged();
+        notifyObservers();
     }
 
     public Location getCurrentLocation() {
@@ -52,5 +55,7 @@ public class GameState {
 
     public void setCurrentLocation(Location currentLocation) {
         this.currentLocation = currentLocation;
+        setChanged();
+        notifyObservers();
     }
 }
