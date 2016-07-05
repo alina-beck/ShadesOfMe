@@ -19,11 +19,11 @@ public class GameManagerTest {
     private Location mockLocation = Mockito.mock(Location.class);
     private Item mockItem = Mockito.mock(Item.class);
     private ArrayList<Item> mockItems = new ArrayList<>();
-    private EquipmentManager equipmentManager = Mockito.mock(EquipmentManager.class);
+    private Equipment equipment = Mockito.mock(Equipment.class);
 
     @Before
     public void setUp() {
-        gameManager = new GameManager(mockGameState, mockPlayer, equipmentManager);
+        gameManager = new GameManager(mockGameState, mockPlayer, equipment);
     }
 
     private void setUpListOfItemsForLocation() {
@@ -115,7 +115,7 @@ public class GameManagerTest {
     @Test
     public void alertsEquipmentManagerWhenItemIsPickedUp() {
         gameManager.pickUpItem(mockItem);
-        verify(equipmentManager).add(mockItem);
+        verify(equipment).add(mockItem);
     }
 
     @Test
@@ -127,7 +127,7 @@ public class GameManagerTest {
     public void alertsEquipmentManagerWhenItemIsUsed() {
         // TODO: distinguish between reusable and single-use items
         gameManager.useItem(mockItem);
-        verify(equipmentManager).remove(mockItem);
+        verify(equipment).remove(mockItem);
     }
 
     @Test
@@ -135,7 +135,7 @@ public class GameManagerTest {
         Item upgradeStage = Mockito.mock(Item.class);
         when(mockItem.getUpgradeStage()).thenReturn(upgradeStage);
         gameManager.upgradeItem(mockItem);
-        verify(equipmentManager).replace(mockItem, upgradeStage);
+        verify(equipment).replace(mockItem, upgradeStage);
     }
 
     @Test

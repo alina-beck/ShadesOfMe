@@ -2,25 +2,25 @@ package ava.shadesofme;
 
 import java.util.List;
 
-public class EquipmentManager {
+public class Equipment {
 
-    private Player player;
     private int currentTotalWeight;
     private int currentTotalVolume;
     private int maxTotalWeight;
     private int maxTotalVolume;
+    private List<EquipmentSlot> equipmentSlots;
 
-    public EquipmentManager(Player player, int maxTotalWeight, int maxTotalVolume) {
-        this.player = player;
+    public Equipment(int maxTotalWeight, int maxTotalVolume, List<EquipmentSlot> equipmentSlots) {
         this.currentTotalWeight = 0;
         this.currentTotalVolume = 0;
         this.maxTotalWeight = maxTotalWeight;
         this.maxTotalVolume = maxTotalVolume;
+        this.equipmentSlots = equipmentSlots;
     }
 
     public boolean add(Item item) {
         if (currentTotalWeight + item.getWeight() <= maxTotalWeight && currentTotalVolume + item.getVolume() <= maxTotalVolume) {
-            List<EquipmentSlot> equipmentSlots = player.getEquipmentSlots();
+            List<EquipmentSlot> equipmentSlots = getEquipmentSlots();
             for (EquipmentSlot e : equipmentSlots) {
                 if (e.getItem() == null && item.getWeight() <= e.getMaxWeight() && item.getVolume() <= e.getMaxVolume()) {
                     e.putItem(item);
@@ -42,7 +42,7 @@ public class EquipmentManager {
     }
 
     public void remove(Item item) {
-        List<EquipmentSlot> equipmentSlots = player.getEquipmentSlots();
+        List<EquipmentSlot> equipmentSlots = getEquipmentSlots();
         for (EquipmentSlot e : equipmentSlots) {
             if (e.getItem().equals(item)) {
                 e.removeItem();
@@ -54,7 +54,7 @@ public class EquipmentManager {
     }
 
     public void replace(Item item, Item upgradeStage) {
-        List<EquipmentSlot> equipmentSlots = player.getEquipmentSlots();
+        List<EquipmentSlot> equipmentSlots = getEquipmentSlots();
         for (EquipmentSlot e : equipmentSlots) {
             if (e.getItem().equals(item)) {
                 e.removeItem();
@@ -78,5 +78,9 @@ public class EquipmentManager {
 
     public void setCurrentTotalWeight(int currentTotalWeight) {
         this.currentTotalWeight = currentTotalWeight;
+    }
+
+    public List<EquipmentSlot> getEquipmentSlots() {
+        return equipmentSlots;
     }
 }

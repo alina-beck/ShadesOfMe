@@ -1,18 +1,17 @@
 package ava.shadesofme;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class GameManager {
 
     private GameState gameState;
     private Player player;
-    private EquipmentManager equipmentManager;
+    private Equipment equipment;
 
-    public GameManager(GameState gameState, Player player, EquipmentManager equipmentManager) {
+    public GameManager(GameState gameState, Player player, Equipment equipment) {
         this.gameState = gameState;
         this.player = player;
-        this.equipmentManager = equipmentManager;
+        this.equipment = equipment;
     }
 
     public void advanceTimeBy(int minutes) {
@@ -37,16 +36,16 @@ public class GameManager {
     public void useItem(Item item) {
         advanceTimeBy(item.getUseTime());
         player.updateStatsWithItem(item);
-        equipmentManager.remove(item);
+        equipment.remove(item);
     }
 
     public void upgradeItem(Item item) {
         advanceTimeBy(item.getUpgradeTime());
-        equipmentManager.replace(item, item.getUpgradeStage());
+        equipment.replace(item, item.getUpgradeStage());
     }
 
     public void pickUpItem(Item item) {
-        equipmentManager.add(item);
+        equipment.add(item);
     }
 
     public GameState getGameState() {

@@ -11,23 +11,21 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class EquipmentManagerTest {
+public class EquipmentTest {
 
-    private EquipmentManager equipmentManager;
+    private Equipment equipment;
     private Item mockItem = Mockito.mock(Item.class);
-    private Player mockPlayer = Mockito.mock(Player.class);
     private EquipmentSlot mockEquipmentSlot = Mockito.mock(EquipmentSlot.class);
     private List<EquipmentSlot> mockEquipmentSlots = new ArrayList<>();
 
     @Before
     public void setUp() {
-        equipmentManager = new EquipmentManager(mockPlayer, 30, 30);
+        equipment = new Equipment(30, 30, mockEquipmentSlots);
     }
 
     private void setUpTwoEmptyEquipmentSlots() {
         mockEquipmentSlots.add(mockEquipmentSlot);
         mockEquipmentSlots.add(mockEquipmentSlot);
-        when(mockPlayer.getEquipmentSlots()).thenReturn(mockEquipmentSlots);
     }
 
     private void setUpItemsInEquipmentSlots() {
@@ -52,20 +50,20 @@ public class EquipmentManagerTest {
     @Test
     public void returnsTrueWhenItemWasPlacedInEquipmentSlot() {
         setUpTwoEmptyEquipmentSlots();
-        assertTrue(equipmentManager.add(mockItem));
+        assertTrue(equipment.add(mockItem));
     }
 
     @Test
     public void returnsFalseWhenNoEquipmentSlotIsFree() {
         setUpTwoEmptyEquipmentSlots();
         setUpItemsInEquipmentSlots();
-        assertFalse(equipmentManager.add(mockItem));
+        assertFalse(equipment.add(mockItem));
     }
 
     @Test
     public void tellsFreeEquipmentSlotToTakeItem() {
         setUpTwoEmptyEquipmentSlots();
-        equipmentManager.add(mockItem);
+        equipment.add(mockItem);
         verify(mockEquipmentSlot).putItem(mockItem);
     }
 
@@ -75,7 +73,7 @@ public class EquipmentManagerTest {
         setUpTwoEmptyEquipmentSlots();
         setUpItemsInEquipmentSlots();
 
-        equipmentManager.remove(mockItem);
+        equipment.remove(mockItem);
         verify(mockEquipmentSlot).removeItem();
     }
 
@@ -85,7 +83,7 @@ public class EquipmentManagerTest {
         setUpItemsInEquipmentSlots();
         Item mockUpgradeItem = Mockito.mock(Item.class);
 
-        equipmentManager.replace(mockItem, mockUpgradeItem);
+        equipment.replace(mockItem, mockUpgradeItem);
         verify(mockEquipmentSlot).putItem(mockUpgradeItem);
     }
 
@@ -95,8 +93,8 @@ public class EquipmentManagerTest {
         setUpEquipmentSlotWithHighMaxWeightAndVolume();
         setUpMockItemWeightAndVolume();
 
-        equipmentManager.add(mockItem);
-        assertEquals(5, equipmentManager.getCurrentTotalWeight());
+        equipment.add(mockItem);
+        assertEquals(5, equipment.getCurrentTotalWeight());
     }
 
     @Test
@@ -105,8 +103,8 @@ public class EquipmentManagerTest {
         setUpEquipmentSlotWithHighMaxWeightAndVolume();
         setUpMockItemWeightAndVolume();
 
-        equipmentManager.add(mockItem);
-        assertEquals(5, equipmentManager.getCurrentTotalVolume());
+        equipment.add(mockItem);
+        assertEquals(5, equipment.getCurrentTotalVolume());
     }
 
     @Test
@@ -115,9 +113,9 @@ public class EquipmentManagerTest {
         setUpItemsInEquipmentSlots();
         setUpMockItemWeightAndVolume();
 
-        equipmentManager.setCurrentTotalWeight(10);
-        equipmentManager.remove(mockItem);
-        assertEquals(5, equipmentManager.getCurrentTotalWeight());
+        equipment.setCurrentTotalWeight(10);
+        equipment.remove(mockItem);
+        assertEquals(5, equipment.getCurrentTotalWeight());
     }
 
     @Test
@@ -126,9 +124,9 @@ public class EquipmentManagerTest {
         setUpItemsInEquipmentSlots();
         setUpMockItemWeightAndVolume();
 
-        equipmentManager.setCurrentTotalVolume(10);
-        equipmentManager.remove(mockItem);
-        assertEquals(5, equipmentManager.getCurrentTotalVolume());
+        equipment.setCurrentTotalVolume(10);
+        equipment.remove(mockItem);
+        assertEquals(5, equipment.getCurrentTotalVolume());
     }
 
     @Test
@@ -136,8 +134,8 @@ public class EquipmentManagerTest {
         setUpTwoEmptyEquipmentSlots();
         setUpMockItemWeightAndVolume();
 
-        equipmentManager.setCurrentTotalWeight(28);
-        assertFalse(equipmentManager.add(mockItem));
+        equipment.setCurrentTotalWeight(28);
+        assertFalse(equipment.add(mockItem));
     }
 
     @Test
@@ -145,8 +143,8 @@ public class EquipmentManagerTest {
         setUpTwoEmptyEquipmentSlots();
         setUpMockItemWeightAndVolume();
 
-        equipmentManager.setCurrentTotalVolume(28);
-        assertFalse(equipmentManager.add(mockItem));
+        equipment.setCurrentTotalVolume(28);
+        assertFalse(equipment.add(mockItem));
 
     }
 
@@ -156,7 +154,7 @@ public class EquipmentManagerTest {
         setUpMockItemWeightAndVolume();
         setUpEquipmentSlotWithLowMaxWeightAndVolume();
 
-        assertFalse(equipmentManager.add(mockItem));
+        assertFalse(equipment.add(mockItem));
 
     }
 
@@ -166,7 +164,7 @@ public class EquipmentManagerTest {
         setUpMockItemWeightAndVolume();
         setUpEquipmentSlotWithLowMaxWeightAndVolume();
 
-        assertFalse(equipmentManager.add(mockItem));
+        assertFalse(equipment.add(mockItem));
     }
 
     @Test
@@ -179,7 +177,7 @@ public class EquipmentManagerTest {
         when(mockEquipmentSlot.getCurrentStack()).thenReturn(1);
         when(mockEquipmentSlot.getStackable()).thenReturn(true);
 
-        equipmentManager.add(mockItem);
+        equipment.add(mockItem);
         verify(mockEquipmentSlot).stackItem(mockItem);
     }
 
@@ -192,7 +190,7 @@ public class EquipmentManagerTest {
         when(mockEquipmentSlot.getCurrentStack()).thenReturn(3);
         when(mockEquipmentSlot.getStackable()).thenReturn(true);
 
-        assertFalse(equipmentManager.add(mockItem));
+        assertFalse(equipment.add(mockItem));
     }
 
     @Test
@@ -204,6 +202,6 @@ public class EquipmentManagerTest {
         when(mockEquipmentSlot.getCurrentStack()).thenReturn(1);
         when(mockEquipmentSlot.getStackable()).thenReturn(false);
 
-        assertFalse(equipmentManager.add(mockItem));
+        assertFalse(equipment.add(mockItem));
     }
 }

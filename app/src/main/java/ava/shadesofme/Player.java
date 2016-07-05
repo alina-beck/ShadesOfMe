@@ -18,10 +18,8 @@ public class Player extends Observable {
     private int maxSatiety;
     private int maxEnergy;
     private int maxHealth;
-    private List<EquipmentSlot> equipmentSlots;
 
-    public Player(int startingSatiety, int maxSatiety, int startingEnergy, int maxEnergy, int startingHealth, int maxHealth,
-                  List<EquipmentSlot> equipmentSlots) {
+    public Player(int startingSatiety, int maxSatiety, int startingEnergy, int maxEnergy, int startingHealth, int maxHealth) {
         this.currentSatiety = startingSatiety;
         this.currentEnergy = startingEnergy;
         this.currentHealth = startingHealth;
@@ -29,7 +27,6 @@ public class Player extends Observable {
         this.maxSatiety = maxSatiety;
         this.maxEnergy = maxEnergy;
         this.maxHealth = maxHealth;
-        this.equipmentSlots = equipmentSlots;
     }
 
     public void updateStatsByTime(int minutes) {
@@ -167,7 +164,4 @@ public class Player extends Observable {
         return maxHealth;
     }
 
-    public List<EquipmentSlot> getEquipmentSlots() {
-        return equipmentSlots;
-    }
 }

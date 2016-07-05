@@ -24,10 +24,7 @@ public class Initialiser {
     }
 
     private void initPlayer() {
-        ArrayList<EquipmentSlot> equipmentSlots = new ArrayList<>();
-        equipmentSlots.add(new EquipmentSlot(5, 5, false));
-        equipmentSlots.add(new EquipmentSlot(20, 20, true));
-        this.player = new Player(30, 100, 50, 100, 80, 100, equipmentSlots);
+        this.player = new Player(30, 100, 50, 100, 80, 100);
     }
 
     private void initLocations() {
@@ -41,9 +38,12 @@ public class Initialiser {
     }
 
     private void initGameStateManager() {
-        EquipmentManager equipmentManager = new EquipmentManager(player, 50, 50);
+        ArrayList<EquipmentSlot> equipmentSlots = new ArrayList<>();
+        equipmentSlots.add(new EquipmentSlot(5, 5, false));
+        equipmentSlots.add(new EquipmentSlot(20, 20, true));
+        Equipment equipment = new Equipment(50, 50, equipmentSlots);
         GameState gameState = new GameState("11:00", home);
-        this.gameManager = new GameManager(gameState, player, equipmentManager);
+        this.gameManager = new GameManager(gameState, player, equipment);
     }
 
 }

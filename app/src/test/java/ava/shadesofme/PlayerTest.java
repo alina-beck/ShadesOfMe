@@ -24,7 +24,7 @@ public class PlayerTest {
         equipmentSlots.add(Mockito.mock(EquipmentSlot.class));
         equipmentSlots.add(Mockito.mock(EquipmentSlot.class));
         equipmentSlots.add(Mockito.mock(EquipmentSlot.class));
-        player = new Player(50, 100, 50, 100, 50, 100, equipmentSlots);
+        player = new Player(50, 100, 50, 100, 50, 100);
     }
 
     /**
