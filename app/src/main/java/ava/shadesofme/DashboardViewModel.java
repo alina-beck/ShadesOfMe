@@ -18,20 +18,20 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
     private String currentSatiety;
     private String currentEnergy;
     private String currentHealth;
-    private GameStateManager gameStateManager;
+    private GameManager gameManager;
 
-    public DashboardViewModel(GameStateManager gameStateManager) {
-        this.currentLocation = gameStateManager.getCurrentLocation().getName();
-        this.currentTime = gameStateManager.getCurrentTime();
+    public DashboardViewModel(GameManager gameManager) {
+        this.currentLocation = gameManager.getGameState().getCurrentLocation().getName();
+        this.currentTime = gameManager.getGameState().getCurrentTime();
 
-        Player player = gameStateManager.getPlayer();
+        Player player = gameManager.getPlayer();
         this.maxSatiety = String.valueOf(player.getMaxSatiety());
         this.maxEnergy = String.valueOf(player.getMaxEnergy());
         this.maxHealth = String.valueOf(player.getMaxHealth());
         this.currentSatiety = String.valueOf(player.getCurrentSatiety());
         this.currentEnergy = String.valueOf(player.getCurrentEnergy());
         this.currentHealth = String.valueOf(player.getCurrentHealth());
-        this.gameStateManager = gameStateManager;
+        this.gameManager = gameManager;
     }
 
     /**
@@ -197,7 +197,7 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
     }
 
     public void restButtonClicked() {
-        gameStateManager.advanceTimeBy(30);
+        gameManager.advanceTimeBy(30);
     }
 
 }

@@ -11,16 +11,18 @@ import static org.mockito.Mockito.when;
 public class DashboardViewModelTest {
 
     private DashboardViewModel dashboardViewModel;
-    private GameStateManager mockGameStateManager = Mockito.mock(GameStateManager.class);
+    private GameManager mockGameManager = Mockito.mock(GameManager.class);
+    private GameState mockGameState = Mockito.mock(GameState.class);
     private Player mockPlayer = Mockito.mock(Player.class);
     private Location mockLocation = Mockito.mock(Location.class);
 
 
     @Before
     public void setUp() {
-        when(mockGameStateManager.getPlayer()).thenReturn(mockPlayer);
-        when(mockGameStateManager.getCurrentLocation()).thenReturn(mockLocation);
-        when(mockGameStateManager.getCurrentTime()).thenReturn("12:00");
+        when(mockGameManager.getPlayer()).thenReturn(mockPlayer);
+        when(mockGameManager.getGameState()).thenReturn(mockGameState);
+        when(mockGameState.getCurrentLocation()).thenReturn(mockLocation);
+        when(mockGameState.getCurrentTime()).thenReturn("12:00");
         when(mockLocation.getName()).thenReturn("Test Home");
         when(mockPlayer.getMaxSatiety()).thenReturn(100);
         when(mockPlayer.getMaxEnergy()).thenReturn(100);
@@ -28,7 +30,7 @@ public class DashboardViewModelTest {
         when(mockPlayer.getCurrentSatiety()).thenReturn(30);
         when(mockPlayer.getCurrentEnergy()).thenReturn(50);
         when(mockPlayer.getCurrentHealth()).thenReturn(80);
-        dashboardViewModel = new DashboardViewModel(mockGameStateManager);
+        dashboardViewModel = new DashboardViewModel(mockGameManager);
     }
 
     /**
@@ -82,7 +84,7 @@ public class DashboardViewModelTest {
     @Test
     public void tellsGameStateManagerToUpdateWhenRestClicked() {
         dashboardViewModel.restButtonClicked();
-        verify(mockGameStateManager).advanceTimeBy(30);
+        verify(mockGameManager).advanceTimeBy(30);
     }
 
     /**

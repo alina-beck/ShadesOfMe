@@ -9,7 +9,7 @@ public class Initialiser {
     private Player player;
     private Location home;
     private Location town;
-    private GameStateManager gameStateManager;
+    private GameManager gameManager;
 
     public Initialiser(MainActivity dashboardActivity) {
         this.activity = dashboardActivity;
@@ -19,7 +19,7 @@ public class Initialiser {
         initPlayer();
         initLocations();
         initGameStateManager();
-        dashboardViewModel = new DashboardViewModel(gameStateManager);
+        dashboardViewModel = new DashboardViewModel(gameManager);
         activity.initDashboard(dashboardViewModel);
     }
 
@@ -42,7 +42,8 @@ public class Initialiser {
 
     private void initGameStateManager() {
         EquipmentManager equipmentManager = new EquipmentManager(player, 50, 50);
-        this.gameStateManager = new GameStateManager("11:00", player, home, equipmentManager);
+        GameState gameState = new GameState("11:00", home);
+        this.gameManager = new GameManager(gameState, player, equipmentManager);
     }
 
 }

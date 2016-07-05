@@ -114,7 +114,7 @@ public class Player extends Observable {
     }
 
     /**
-     * Getters and setters
+     * Getters and setters - remember to notify observers when relevant
      */
 
     public int getCurrentSatiety() {

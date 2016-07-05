@@ -7,12 +7,14 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class GameStateManagerTest {
+public class GameManagerTest {
 
-    private GameStateManager gameStateManager;
+    private GameManager gameManager;
+    private GameState mockGameState = Mockito.mock(GameState.class);
     private Player mockPlayer = Mockito.mock(Player.class);
     private Location mockLocation = Mockito.mock(Location.class);
     private Item mockItem = Mockito.mock(Item.class);
@@ -21,7 +23,7 @@ public class GameStateManagerTest {
 
     @Before
     public void setUp() {
-        gameStateManager = new GameStateManager("14:00", mockPlayer, mockLocation, equipmentManager);
+        gameManager = new GameManager(mockGameState, mockPlayer, equipmentManager);
     }
 
     private void setUpListOfItemsForLocation() {
@@ -36,27 +38,15 @@ public class GameStateManagerTest {
      */
 
     @Test
-    public void currentGameTimeAdvancesGivenNumberOfMinutes() {
-        gameStateManager.advanceTimeBy(30);
-        assertEquals("14:30", gameStateManager.getCurrentTime());
-    }
-
-    @Test
-    public void currentGameTimeAdvancesMoreThanSixtyMinutes() {
-        gameStateManager.advanceTimeBy(125);
-        assertEquals("16:05", gameStateManager.getCurrentTime());
-    }
-
-    @Test
-    public void currentGameTimeAdvancesPastTwentyFourHours() {
-        gameStateManager.advanceTimeBy(690);
-        assertEquals("01:30", gameStateManager.getCurrentTime());
-    }
-
-    @Test
     public void updatesPlayerStatsWhenTimeAdvances() {
-        gameStateManager.advanceTimeBy(30);
+        gameManager.advanceTimeBy(30);
         verify(mockPlayer).updateStatsByTime(30);
+    }
+
+    @Test
+    public void tellsGameStateToAdvanceTime() {
+        gameManager.advanceTimeBy(30);
+        verify(mockGameState).advanceTimeBy(30);
     }
 
     /**
@@ -66,26 +56,26 @@ public class GameStateManagerTest {
     @Test
     public void currentLocationChangesOnGoToAction() {
         Location newLocation = Mockito.mock(Location.class);
-        gameStateManager.goToLocation(newLocation, 30);
-        assertEquals(newLocation, gameStateManager.getCurrentLocation());
+        gameManager.goToLocation(newLocation, 30);
+        verify(mockGameState).setCurrentLocation(newLocation);
     }
 
     @Test
     public void whenLocationIsSearchedReturnsListOfItems() {
         setUpListOfItemsForLocation();
-        assertEquals(mockItems, gameStateManager.searchLocation(mockLocation));
+        assertEquals(mockItems, gameManager.searchLocation(mockLocation));
     }
 
     @Test
     public void whenLocationIsSearchedTimeAdvances() {
         setUpListOfItemsForLocation();
-        gameStateManager.searchLocation(mockLocation);
-        assertEquals("14:45", gameStateManager.getCurrentTime());
+        gameManager.searchLocation(mockLocation);
+        verify(mockGameState).advanceTimeBy(45);
     }
 
     @Test
     public void whenSearchedLocationStateIsUpdated() {
-        gameStateManager.searchLocation(mockLocation);
+        gameManager.searchLocation(mockLocation);
         verify(mockLocation).setSearched(true);
     }
 
@@ -93,15 +83,15 @@ public class GameStateManagerTest {
     public void searchTimeIsCalculatedFromNumberOfItems() {
         setUpListOfItemsForLocation();
         mockItems.add(Mockito.mock(Item.class));
-        gameStateManager.searchLocation(mockLocation);
-        assertEquals("14:50", gameStateManager.getCurrentTime());
+        gameManager.searchLocation(mockLocation);
+        verify(mockGameState).advanceTimeBy(50);
     }
 
     @Test
     public void whenLocationHasBeenSearchedReturnsItemsImmediately() {
         when(mockLocation.isSearched()).thenReturn(true);
-        gameStateManager.searchLocation(mockLocation);
-        assertEquals("14:00", gameStateManager.getCurrentTime());
+        gameManager.searchLocation(mockLocation);
+        verify(mockGameState, never()).advanceTimeBy(Mockito.anyInt());
     }
 
 
@@ -112,19 +102,19 @@ public class GameStateManagerTest {
     @Test
     public void timeAdvancesOnItemUse() {
         when(mockItem.getUseTime()).thenReturn(30);
-        gameStateManager.useItem(mockItem);
-        assertEquals("14:30", gameStateManager.getCurrentTime());
+        gameManager.useItem(mockItem);
+        verify(mockGameState).advanceTimeBy(30);
     }
 
     @Test
     public void alertsPlayerWhenItemIsPickedUp() {
-        gameStateManager.useItem(mockItem);
+        gameManager.useItem(mockItem);
         verify(mockPlayer).updateStatsWithItem(mockItem);
     }
 
     @Test
     public void alertsEquipmentManagerWhenItemIsPickedUp() {
-        gameStateManager.pickUpItem(mockItem);
+        gameManager.pickUpItem(mockItem);
         verify(equipmentManager).add(mockItem);
     }
 
@@ -136,7 +126,7 @@ public class GameStateManagerTest {
     @Test
     public void alertsEquipmentManagerWhenItemIsUsed() {
         // TODO: distinguish between reusable and single-use items
-        gameStateManager.useItem(mockItem);
+        gameManager.useItem(mockItem);
         verify(equipmentManager).remove(mockItem);
     }
 
@@ -144,7 +134,7 @@ public class GameStateManagerTest {
     public void sendsNewItemToEquipmentManagerOnItemUpgrade() {
         Item upgradeStage = Mockito.mock(Item.class);
         when(mockItem.getUpgradeStage()).thenReturn(upgradeStage);
-        gameStateManager.upgradeItem(mockItem);
+        gameManager.upgradeItem(mockItem);
         verify(equipmentManager).replace(mockItem, upgradeStage);
     }
 
@@ -156,8 +146,8 @@ public class GameStateManagerTest {
     @Test
     public void advancesTimeOnUpgrade() {
         when(mockItem.getUpgradeTime()).thenReturn(30);
-        gameStateManager.upgradeItem(mockItem);
-        assertEquals("14:30", gameStateManager.getCurrentTime());
+        gameManager.upgradeItem(mockItem);
+        verify(mockGameState).advanceTimeBy(30);
     }
 
 }

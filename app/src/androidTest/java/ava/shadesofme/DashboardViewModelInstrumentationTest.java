@@ -1,14 +1,12 @@
 package ava.shadesofme;
 
 import android.os.Parcel;
-import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
@@ -17,15 +15,15 @@ import static org.mockito.Mockito.when;
 public class DashboardViewModelInstrumentationTest {
 
     private DashboardViewModel dashboardViewModel;
-    private GameStateManager mockGameStateManager = Mockito.mock(GameStateManager.class);
+    private GameManager mockGameManager = Mockito.mock(GameManager.class);
     private Player mockPlayer = Mockito.mock(Player.class);
     private Location mockLocation = Mockito.mock(Location.class);
 
     @Before
     public void setUp() {
-        when(mockGameStateManager.getPlayer()).thenReturn(mockPlayer);
-        when(mockGameStateManager.getCurrentLocation()).thenReturn(mockLocation);
-        when(mockGameStateManager.getCurrentTime()).thenReturn("12:00");
+        when(mockGameManager.getPlayer()).thenReturn(mockPlayer);
+        when(mockGameManager.getCurrentLocation()).thenReturn(mockLocation);
+        when(mockGameManager.getCurrentTime()).thenReturn("12:00");
         when(mockLocation.getName()).thenReturn("Test Home");
         when(mockPlayer.getMaxSatiety()).thenReturn(100);
         when(mockPlayer.getMaxEnergy()).thenReturn(100);
@@ -33,7 +31,7 @@ public class DashboardViewModelInstrumentationTest {
         when(mockPlayer.getCurrentSatiety()).thenReturn(30);
         when(mockPlayer.getCurrentEnergy()).thenReturn(50);
         when(mockPlayer.getCurrentHealth()).thenReturn(80);
-        dashboardViewModel = new DashboardViewModel(mockGameStateManager);
+        dashboardViewModel = new DashboardViewModel(mockGameManager);
     }
 
     @Test
