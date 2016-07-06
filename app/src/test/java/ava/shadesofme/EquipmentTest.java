@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
@@ -40,7 +41,7 @@ public class EquipmentTest {
     }
 
     /**
-     * Placing items in equipment slots
+     * Placing items in equipment
      */
 
     @Test
@@ -52,23 +53,6 @@ public class EquipmentTest {
     public void returnsFalseWhenItemCannotBePlacedInEquipment() {
         when(mockItem.getWeight()).thenReturn(500);
         assertFalse(equipment.add(mockItem));
-    }
-
-    @Test
-    public void itemIsRemovedFromEquipment() {
-        setUpMockItemsInEquipment();
-        equipment.remove(mockItemTwo);
-        assertFalse(mockItems.contains(mockItemTwo));
-    }
-
-    @Test
-    public void upgradesItemByReplacingIt() {
-        // TODO: check for conditions before upgrading, rename method to upgrade
-        setUpMockItemsInEquipment();
-        Item mockUpgradeItem = Mockito.mock(Item.class);
-
-        equipment.replace(mockItem, mockUpgradeItem);
-        assertTrue(mockItems.contains(mockUpgradeItem));
     }
 
     @Test
@@ -84,26 +68,6 @@ public class EquipmentTest {
         setUpMockItemWeightAndVolume();
 
         equipment.add(mockItem);
-        assertEquals(5, equipment.getCurrentTotalVolume());
-    }
-
-    @Test
-    public void whenItemIsRemovedTheCurrentWeightDecreases() {
-        setUpMockItemsInEquipment();
-        setUpMockItemWeightAndVolume();
-
-        equipment.setCurrentTotalWeight(10);
-        equipment.remove(mockItem);
-        assertEquals(5, equipment.getCurrentTotalWeight());
-    }
-
-    @Test
-    public void whenItemIsRemovedTheCurrentVolumeDecreases() {
-        setUpMockItemsInEquipment();
-        setUpMockItemWeightAndVolume();
-
-        equipment.setCurrentTotalVolume(10);
-        equipment.remove(mockItem);
         assertEquals(5, equipment.getCurrentTotalVolume());
     }
 
@@ -130,32 +94,63 @@ public class EquipmentTest {
     }
 
     /**
+     * Removing and replacing items in equipment
+     */
+
+    @Test
+    public void itemIsRemovedFromEquipment() {
+        setUpMockItemsInEquipment();
+        equipment.remove(mockItemTwo);
+        assertFalse(mockItems.contains(mockItemTwo));
+    }
+
+    @Test
+    public void upgradesItemByReplacingIt() {
+        // TODO: check for conditions before upgrading, rename method to upgrade
+        setUpMockItemsInEquipment();
+        Item mockUpgradeItem = Mockito.mock(Item.class);
+
+        equipment.replace(mockItem, mockUpgradeItem);
+        assertTrue(mockItems.contains(mockUpgradeItem));
+    }
+
+    @Test
+    public void whenItemIsRemovedTheCurrentWeightDecreases() {
+        setUpMockItemsInEquipment();
+        setUpMockItemWeightAndVolume();
+
+        equipment.setCurrentTotalWeight(10);
+        equipment.remove(mockItem);
+        assertEquals(5, equipment.getCurrentTotalWeight());
+    }
+
+    @Test
+    public void whenItemIsRemovedTheCurrentVolumeDecreases() {
+        setUpMockItemsInEquipment();
+        setUpMockItemWeightAndVolume();
+
+        equipment.setCurrentTotalVolume(10);
+        equipment.remove(mockItem);
+        assertEquals(5, equipment.getCurrentTotalVolume());
+    }
+
+    /**
      * Handling stackable items
      */
 
-//    @Test
-//    public void stackableItemsAreStackedInSameSlot() {
-//        // TODO: first check for same item and stackItem if possible, then add to new slot when stackItem is full
-//        setUpTwoEmptyEquipmentSlots();
-//        setUpEquipmentSlotWithHighMaxWeightAndVolume();
-//        setUpMockItemsInEquipment();
-//        when(mockItem.getStackable()).thenReturn(3);
-//        when(mockEquipmentSlot.getCurrentStack()).thenReturn(1);
-//        when(mockEquipmentSlot.getStackable()).thenReturn(true);
-//
-//        equipment.add(mockItem);
-//        verify(mockEquipmentSlot).stackItem(mockItem);
-//    }
-//
-//    @Test
-//    public void stackableItemsStackNeverHigherThanMaxAmount() {
-//        setUpTwoEmptyEquipmentSlots();
-//        setUpEquipmentSlotWithHighMaxWeightAndVolume();
-//        setUpMockItemsInEquipment();
-//        when(mockItem.getStackable()).thenReturn(3);
-//        when(mockEquipmentSlot.getCurrentStack()).thenReturn(3);
-//        when(mockEquipmentSlot.getStackable()).thenReturn(true);
-//
-//        assertFalse(equipment.add(mockItem));
-//    }
+    @Test
+    public void stackableItemsAreStackedInSameSlot() {
+        setUpMockItemsInEquipment();
+        when(mockItem.getStackable()).thenReturn(3);
+        assertTrue(equipment.add(mockItem));
+    }
+
+    @Test
+    public void stackableItemsStackNeverHigherThanMaxAmount() {
+        setUpMockItemsInEquipment();
+        when(mockItem.getStackable()).thenReturn(3);
+        equipment.add(mockItem);
+        equipment.add(mockItem);
+        assertFalse(equipment.add(mockItem));
+    }
 }

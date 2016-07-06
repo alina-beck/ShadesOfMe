@@ -23,9 +23,11 @@ public class Equipment {
     }
 
     public boolean add(Item item) {
-        if(item.getWeight() + getCurrentTotalWeight() <= getMaxTotalWeight()
-                && item.getVolume() + getCurrentTotalVolume() <= getMaxTotalVolume()
-                && getItems().size() < getTotalSlots()) {
+        boolean fitsInEquipment = fitsInEquipment(item);
+        boolean slotIsFree = slotIsFree();
+        boolean canBeStacked = canBeStacked(item);
+
+        if(fitsInEquipment && slotIsFree || canBeStacked) {
             getItems().add(item);
             currentTotalWeight += item.getWeight();
             currentTotalVolume += item.getVolume();
@@ -34,19 +36,42 @@ public class Equipment {
         return false;
     }
 
-    public void remove(Item item) {
-        // TODO: make boolean
+    private boolean fitsInEquipment(Item item) {
+        return item.getWeight() + getCurrentTotalWeight() <= getMaxTotalWeight()
+                && item.getVolume() + getCurrentTotalVolume() <= getMaxTotalVolume();
+    }
+
+    private boolean slotIsFree() {
+        return getItems().size() < getTotalSlots();
+    }
+
+    private boolean canBeStacked(Item item) {
+        if(getItems().contains(item)) {
+            int itemStack = 0;
+            for (Item i : getItems()) {
+                if(item.equals(i)) {
+                    itemStack++;
+                }
+            }
+            if(itemStack % item.getStackable() != 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean remove(Item item) {
         if(getItems().contains(item)) {
             getItems().remove(item);
             currentTotalWeight -= item.getWeight();
             currentTotalVolume -= item.getVolume();
+            return true;
         }
+        return false;
     }
 
-    public void replace(Item item, Item upgradeStage) {
-        // TODO: make boolean
-        remove(item);
-        add(upgradeStage);
+    public boolean replace(Item item, Item upgradeStage) {
+        return remove(item) && add(upgradeStage);
     }
 
     public int getCurrentTotalWeight() {
