@@ -11,6 +11,7 @@ public class Item {
     private int weight;
     private int volume;
     private int stackable;
+    private String name;
 
     public Item(Item upgradeStage, int useTime, int upgradeTime, int satietyEffect, int energyEffect, int healthEffect,
                 int weight, int volume, int stackable) {
@@ -59,5 +60,9 @@ public class Item {
 
     public int getUpgradeTime() {
         return upgradeTime;
+    }
+
+    public String getName() {
+        return name;
     }
 }

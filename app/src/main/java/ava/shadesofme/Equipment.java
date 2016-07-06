@@ -2,15 +2,15 @@ package ava.shadesofme;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class Equipment {
+public class Equipment extends Observable {
 
     private int currentTotalWeight;
     private int currentTotalVolume;
     private int maxTotalWeight;
     private int maxTotalVolume;
     private int totalSlots;
-    // TODO: make list observable - or whole equipment if needed?
     private List<Item> items;
 
     public Equipment(int maxTotalWeight, int maxTotalVolume, int totalSlots) {
@@ -31,9 +31,27 @@ public class Equipment {
             getItems().add(item);
             currentTotalWeight += item.getWeight();
             currentTotalVolume += item.getVolume();
+            setChanged();
+            notifyObservers();
             return true;
         }
         return false;
+    }
+
+    public boolean remove(Item item) {
+        if(getItems().contains(item)) {
+            getItems().remove(item);
+            currentTotalWeight -= item.getWeight();
+            currentTotalVolume -= item.getVolume();
+            setChanged();
+            notifyObservers();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean replace(Item item, Item upgradeStage) {
+        return remove(item) && add(upgradeStage);
     }
 
     private boolean fitsInEquipment(Item item) {
@@ -58,20 +76,6 @@ public class Equipment {
             }
         }
         return false;
-    }
-
-    public boolean remove(Item item) {
-        if(getItems().contains(item)) {
-            getItems().remove(item);
-            currentTotalWeight -= item.getWeight();
-            currentTotalVolume -= item.getVolume();
-            return true;
-        }
-        return false;
-    }
-
-    public boolean replace(Item item, Item upgradeStage) {
-        return remove(item) && add(upgradeStage);
     }
 
     public int getCurrentTotalWeight() {

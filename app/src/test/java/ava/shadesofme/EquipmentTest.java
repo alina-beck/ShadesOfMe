@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -19,6 +20,7 @@ public class EquipmentTest {
     private Item mockItemTwo = Mockito.mock(Item.class);
     private Item mockItemThree = Mockito.mock(Item.class);
     private List<Item> mockItems = new ArrayList<>();
+    private InventoryViewModel mockViewModel = Mockito.mock(InventoryViewModel.class);
 
     /**
      * Setup
@@ -152,5 +154,37 @@ public class EquipmentTest {
         equipment.add(mockItem);
         equipment.add(mockItem);
         assertFalse(equipment.add(mockItem));
+    }
+
+    /**
+     * Observable stuff
+     */
+
+    @Test
+    public void observersCanRegister() {
+        equipment.addObserver(mockViewModel);
+        assertEquals(1, equipment.countObservers());
+    }
+
+    @Test
+    public void observersCanUnregister() {
+        equipment.addObserver(mockViewModel);
+        equipment.deleteObserver(mockViewModel);
+        assertEquals(0, equipment.countObservers());
+    }
+
+    @Test
+    public void observersAreNotifiedWhenItemIsAdded() {
+        equipment.addObserver(mockViewModel);
+        equipment.add(mockItem);
+        verify(mockViewModel).update(equipment, null);
+    }
+
+    @Test
+    public void observersAreNotifiedWhenItemIsRemoved() {
+        setUpMockItemsInEquipment();
+        equipment.addObserver(mockViewModel);
+        equipment.remove(mockItem);
+        verify(mockViewModel).update(equipment, null);
     }
 }

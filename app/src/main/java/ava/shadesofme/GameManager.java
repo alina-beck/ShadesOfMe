@@ -55,4 +55,8 @@ public class GameManager {
     public Player getPlayer() {
         return player;
     }
+
+    public Equipment getEquipment() {
+        return equipment;
+    }
 }
