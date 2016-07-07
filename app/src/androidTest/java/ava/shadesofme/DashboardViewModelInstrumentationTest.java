@@ -16,14 +16,16 @@ public class DashboardViewModelInstrumentationTest {
 
     private DashboardViewModel dashboardViewModel;
     private GameManager mockGameManager = Mockito.mock(GameManager.class);
+    private GameState mockGameState = Mockito.mock(GameState.class);
     private Player mockPlayer = Mockito.mock(Player.class);
     private Location mockLocation = Mockito.mock(Location.class);
 
     @Before
     public void setUp() {
         when(mockGameManager.getPlayer()).thenReturn(mockPlayer);
-        when(mockGameManager.getCurrentLocation()).thenReturn(mockLocation);
-        when(mockGameManager.getCurrentTime()).thenReturn("12:00");
+        when(mockGameManager.getGameState()).thenReturn(mockGameState);
+        when(mockGameState.getCurrentLocation()).thenReturn(mockLocation);
+        when(mockGameState.getCurrentTime()).thenReturn("12:00");
         when(mockLocation.getName()).thenReturn("Test Home");
         when(mockPlayer.getMaxSatiety()).thenReturn(100);
         when(mockPlayer.getMaxEnergy()).thenReturn(100);

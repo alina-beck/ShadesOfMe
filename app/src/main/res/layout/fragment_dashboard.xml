@@ -10,6 +10,16 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
+        <Button
+            android:id="@+id/button_inventory"
+            android:text="@string/inventory"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+
         <TextView
             android:id="@+id/text_location"
             android:text="@{dashboardVM.currentLocation}"
@@ -17,8 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:layout_toRightOf="@id/button_inventory"/>
 
         <TextView
             android:id="@+id/text_time"
