@@ -4,31 +4,41 @@
         <variable name="dashboardVM" type="ava.shadesofme.DashboardViewModel"/>
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         tools:context=".MainActivity">
-
-        <TextView
-            android:id="@+id/text_time"
-            android:text="@{dashboardVM.currentTime}"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/text_location"
             android:text="@{dashboardVM.currentLocation}"
 
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/text_time"
+            android:text="@{dashboardVM.currentTime}"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/ll_satiety"
+
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/text_time">
             <TextView
                 android:id="@+id/text_current_satiety"
                 android:text="@{dashboardVM.currentSatiety}"
@@ -44,9 +54,14 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/ll_energy"
+
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/ll_satiety">
             <TextView
                 android:id="@+id/text_current_energy"
                 android:text="@{dashboardVM.currentEnergy}"
@@ -63,9 +78,12 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/ll_energy">
             <TextView
                 android:id="@+id/text_current_health"
                 android:text="@{dashboardVM.currentHealth}"
@@ -80,5 +98,5 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </layout>
