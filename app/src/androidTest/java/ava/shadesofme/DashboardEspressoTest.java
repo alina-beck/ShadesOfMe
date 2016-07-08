@@ -13,6 +13,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.core.IsNot.not;
 
 @RunWith(AndroidJUnit4.class)
 public class DashboardEspressoTest {
@@ -49,15 +50,35 @@ public class DashboardEspressoTest {
 
     @Test
     public void clickOnInventoryButtonDisplaysInventoryAsLocation() {
-        onView(withId(R.id.button_inventory)).check(matches(isDisplayed()));
         onView(withId(R.id.button_inventory)).perform(click());
         onView(withId(R.id.text_location)).check(matches(withText("Inventory")));
+    }
+
+    @Test
+    public void clickOnInventoryButtonDisplaysBackButtonInstead() {
+        onView(withText("Inventory")).perform(click());
+        onView(withText("<")).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void clickOnBackButtonDisplaysInventoryButtonInstead() {
+        onView(withText("Inventory")).perform(click());
+        onView(withText("<")).perform(click());
+        onView(withId(R.id.button_inventory)).check(matches(withText("Inventory")));
+    }
+
+    @Test
+    public void clickOnBackButtonReplacesInventoryTitle() {
+        onView(withText("Inventory")).perform(click());
+        onView(withText("<")).perform(click());
+        onView(withId(R.id.text_location)).check(matches(not(withText("Inventory"))));
     }
 
     @Test
     public void clickOnInventoryButtonDisplaysWeightCapacity() {
         // testing one distinct feature to make sure InventoryFragment is displayed
         onView(withId(R.id.button_inventory)).perform(click());
+        onView(withId(R.id.text_max_weight)).check(matches(withText("50")));
         onView(withId(R.id.text_max_weight)).check(matches(isDisplayed()));
     }
 }

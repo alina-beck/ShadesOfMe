@@ -10,6 +10,9 @@ import java.util.Observer;
 
 public class DashboardViewModel extends BaseObservable implements Parcelable, Observer {
 
+    private static final String BUTTON_INVENTORY = "Inventory";
+    private static final String BUTTON_BACK = "<";
+
     private String currentLocation;
     private String currentTime;
     private String maxSatiety;
@@ -18,9 +21,11 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
     private String currentSatiety;
     private String currentEnergy;
     private String currentHealth;
+    private String buttonText;
     private GameManager gameManager;
+    private ViewModelManager viewModelManager;
 
-    public DashboardViewModel(GameManager gameManager) {
+    public DashboardViewModel(GameManager gameManager, ViewModelManager viewModelManager) {
         this.currentLocation = gameManager.getGameState().getCurrentLocation().getName();
         this.currentTime = gameManager.getGameState().getCurrentTime();
 
@@ -31,7 +36,9 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
         this.currentSatiety = String.valueOf(player.getCurrentSatiety());
         this.currentEnergy = String.valueOf(player.getCurrentEnergy());
         this.currentHealth = String.valueOf(player.getCurrentHealth());
+        this.buttonText = BUTTON_INVENTORY;
         this.gameManager = gameManager;
+        this.viewModelManager = viewModelManager;
     }
 
     /**
@@ -43,7 +50,15 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
     }
 
     public void inventoryButtonClicked() {
-        setCurrentLocation("Inventory");
+        if(getButtonText().equals(BUTTON_INVENTORY)) {
+            viewModelManager.buttonClicked(BUTTON_INVENTORY);
+            setCurrentLocation("Inventory");
+            setButtonText(BUTTON_BACK);
+        }
+        else if(getButtonText().equals(BUTTON_BACK)) {
+            setCurrentLocation(gameManager.getGameState().getCurrentLocation().getName());
+            setButtonText(BUTTON_INVENTORY);
+        }
     }
 
     /**
@@ -120,6 +135,11 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
         return currentHealth;
     }
 
+    @Bindable
+    public String getButtonText() {
+        return buttonText;
+    }
+
     /**
      *  Bindable Setters --> remember to always call notifyPropertyChanged(BR.currentHealth);
      */
@@ -147,6 +167,11 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
     public void setCurrentHealth(String currentHealth) {
         this.currentHealth = currentHealth;
         notifyPropertyChanged(ava.shadesofme.BR.currentHealth);
+    }
+
+    public void setButtonText(String buttonText) {
+        this.buttonText = buttonText;
+        notifyPropertyChanged(ava.shadesofme.BR.buttonText);
     }
 
     /**

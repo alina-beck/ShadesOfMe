@@ -1,12 +1,13 @@
 package ava.shadesofme;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class InventoryFragment extends Fragment implements View.OnClickListener {
+import ava.shadesofme.databinding.FragmentInventoryBinding;
+
+public class InventoryFragment extends InnerFragment implements View.OnClickListener {
 
     private InventoryViewModel viewModel;
 
@@ -16,6 +17,10 @@ public class InventoryFragment extends Fragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inventory, container, false);
+
+        viewModel = getArguments().getParcelable("Inventory");
+        FragmentInventoryBinding binding = FragmentInventoryBinding.bind(view);
+        binding.setInventoryVM(viewModel);
 
         return view;
     }

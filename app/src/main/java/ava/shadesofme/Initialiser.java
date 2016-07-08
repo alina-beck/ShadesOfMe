@@ -10,6 +10,7 @@ public class Initialiser {
     private Location home;
     private Location town;
     private GameManager gameManager;
+    private ViewModelManager viewModelManager;
 
     public Initialiser(MainActivity dashboardActivity) {
         this.activity = dashboardActivity;
@@ -19,7 +20,8 @@ public class Initialiser {
         initPlayer();
         initLocations();
         initGameStateManager();
-        dashboardViewModel = new DashboardViewModel(gameManager);
+        viewModelManager = new ViewModelManager(gameManager, activity);
+        dashboardViewModel = new DashboardViewModel(gameManager, viewModelManager);
         activity.initDashboard(dashboardViewModel);
     }
 

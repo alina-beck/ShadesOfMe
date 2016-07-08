@@ -1,5 +1,9 @@
 package ava.shadesofme;
 
+import android.databinding.Bindable;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +11,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-public class InventoryViewModel implements Observer {
+public class InventoryViewModel extends InnerViewModel implements Observer {
 
     private int numberOfSlots;
     private String maxWeight;
@@ -71,6 +75,7 @@ public class InventoryViewModel implements Observer {
         this.currentWeight = currentWeight;
     }
 
+    @Bindable
     public String getMaxWeight() {
         return maxWeight;
     }
@@ -105,5 +110,80 @@ public class InventoryViewModel implements Observer {
 
     public List<Map<String, String>> getItems() {
         return items;
+    }
+
+    /**
+     * Parcelable stuff, including equals and hashcode
+     */
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(getNumberOfSlots());
+        dest.writeString(getMaxWeight());
+        dest.writeString(getMaxVolume());
+        dest.writeString(getCurrentWeight());
+        dest.writeString(getCurrentVolume());
+        dest.writeInt(getItems().size());
+        dest.writeList(getItems());
+    }
+
+    public static final Parcelable.Creator<InventoryViewModel> CREATOR = new Parcelable.Creator<InventoryViewModel>() {
+
+        @Override
+        public InventoryViewModel createFromParcel(Parcel in) {
+            return new InventoryViewModel(in);
+        }
+
+        @Override
+        public InventoryViewModel[] newArray(int size) {
+            return new InventoryViewModel[size];
+        }
+    };
+
+    private InventoryViewModel(Parcel in) {
+        this.numberOfSlots = in.readInt();
+        this.maxWeight = in.readString();
+        this.maxVolume = in.readString();
+        this.currentWeight = in.readString();
+        this.currentVolume = in.readString();
+        List<Map<String, String>> itemsFromParcel = new ArrayList<>(in.readInt());
+        in.readList(itemsFromParcel, null);
+        this.items = itemsFromParcel;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        InventoryViewModel that = (InventoryViewModel) o;
+
+        if (numberOfSlots != that.numberOfSlots) return false;
+        if (maxWeight != null ? !maxWeight.equals(that.maxWeight) : that.maxWeight != null)
+            return false;
+        if (maxVolume != null ? !maxVolume.equals(that.maxVolume) : that.maxVolume != null)
+            return false;
+        if (currentWeight != null ? !currentWeight.equals(that.currentWeight) : that.currentWeight != null)
+            return false;
+        if (currentVolume != null ? !currentVolume.equals(that.currentVolume) : that.currentVolume != null)
+            return false;
+        return items != null ? items.equals(that.items) : that.items == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = numberOfSlots;
+        result = 31 * result + (maxWeight != null ? maxWeight.hashCode() : 0);
+        result = 31 * result + (maxVolume != null ? maxVolume.hashCode() : 0);
+        result = 31 * result + (currentWeight != null ? currentWeight.hashCode() : 0);
+        result = 31 * result + (currentVolume != null ? currentVolume.hashCode() : 0);
+        result = 31 * result + (items != null ? items.hashCode() : 0);
+        return result;
     }
 }

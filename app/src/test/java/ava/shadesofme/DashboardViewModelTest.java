@@ -12,6 +12,7 @@ public class DashboardViewModelTest {
 
     private DashboardViewModel dashboardViewModel;
     private GameManager mockGameManager = Mockito.mock(GameManager.class);
+    private ViewModelManager mockViewModelManager = Mockito.mock(ViewModelManager.class);
     private GameState mockGameState = Mockito.mock(GameState.class);
     private Player mockPlayer = Mockito.mock(Player.class);
     private Location mockLocation = Mockito.mock(Location.class);
@@ -30,7 +31,7 @@ public class DashboardViewModelTest {
         when(mockPlayer.getCurrentSatiety()).thenReturn(30);
         when(mockPlayer.getCurrentEnergy()).thenReturn(50);
         when(mockPlayer.getCurrentHealth()).thenReturn(80);
-        dashboardViewModel = new DashboardViewModel(mockGameManager);
+        dashboardViewModel = new DashboardViewModel(mockGameManager, mockViewModelManager);
     }
 
     /**

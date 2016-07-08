@@ -3,7 +3,6 @@ package ava.shadesofme;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +22,20 @@ public class MainActivity extends AppCompatActivity {
         dashboardFragment.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.container_fragment_dashboard, dashboardFragment);
+        ft.commit();
+    }
+
+    public void setInnerFragment(String name, InnerViewModel viewModel) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(name, viewModel);
+        InnerFragment fragment = null;
+        switch (name) {
+            case "Inventory":
+                fragment = new InventoryFragment();
+        }
+        fragment.setArguments(bundle);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.container_fragment_dashboard, fragment);
         ft.commit();
     }
 }
