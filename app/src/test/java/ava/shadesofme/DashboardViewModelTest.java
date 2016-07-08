@@ -82,6 +82,12 @@ public class DashboardViewModelTest {
      */
 
     @Test
+    public void showsTitleInsteadOfLocationWhenNavigatingToInventory() {
+        dashboardViewModel.inventoryButtonClicked();
+        assertEquals("Inventory", dashboardViewModel.getCurrentLocation());
+    }
+
+    @Test
     public void tellsGameStateManagerToUpdateWhenRestClicked() {
         dashboardViewModel.restButtonClicked();
         verify(mockGameManager).advanceTimeBy(30);

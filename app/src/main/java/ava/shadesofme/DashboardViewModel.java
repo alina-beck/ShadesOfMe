@@ -35,6 +35,18 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
     }
 
     /**
+     * Responding to button clicks
+     */
+
+    public void restButtonClicked() {
+        gameManager.advanceTimeBy(30);
+    }
+
+    public void inventoryButtonClicked() {
+        setCurrentLocation("Inventory");
+    }
+
+    /**
      * Updates after Observable changes
      */
 
@@ -215,9 +227,4 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
         result = 31 * result + (currentHealth != null ? currentHealth.hashCode() : 0);
         return result;
     }
-
-    public void restButtonClicked() {
-        gameManager.advanceTimeBy(30);
-    }
-
 }

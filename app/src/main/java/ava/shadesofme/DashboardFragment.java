@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 
 import ava.shadesofme.databinding.FragmentDashboardBinding;
 
-public class DashboardFragment extends Fragment {
+public class DashboardFragment extends Fragment implements View.OnClickListener {
+
+    private DashboardViewModel viewModel;
 
     public DashboardFragment() {
     }
@@ -17,10 +19,17 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
+        viewModel = getArguments().getParcelable("dashboard_view_model");
         FragmentDashboardBinding binding = FragmentDashboardBinding.bind(view);
-        DashboardViewModel dashboardViewModel = getArguments().getParcelable("dashboard_view_model");
-        binding.setDashboardVM(dashboardViewModel);
+        binding.setDashboardVM(viewModel);
+
+        binding.buttonInventory.setOnClickListener(this);
 
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        viewModel.inventoryButtonClicked();
     }
 }
