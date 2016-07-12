@@ -1,4 +1,4 @@
-package ava.shadesofme;
+package ava.shadesofme.Dashboard;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ava.shadesofme.R;
 import ava.shadesofme.databinding.FragmentDashboardBinding;
 
 public class DashboardFragment extends Fragment implements View.OnClickListener {

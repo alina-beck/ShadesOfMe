@@ -2,6 +2,14 @@ package ava.shadesofme;
 
 import java.util.ArrayList;
 
+import ava.shadesofme.Content.ContentViewModelDao;
+import ava.shadesofme.Dashboard.DashboardViewModel;
+import ava.shadesofme.DataModels.Item;
+import ava.shadesofme.DataModels.Location;
+import ava.shadesofme.GameState.CurrentState;
+import ava.shadesofme.GameState.Equipment;
+import ava.shadesofme.GameState.Player;
+
 public class Initialiser {
 
     private MainActivity activity;
@@ -10,7 +18,7 @@ public class Initialiser {
     private Location home;
     private Location town;
     private GameManager gameManager;
-    private ViewModelManager viewModelManager;
+    private ContentViewModelDao contentViewModelDao;
 
     public Initialiser(MainActivity dashboardActivity) {
         this.activity = dashboardActivity;
@@ -20,8 +28,8 @@ public class Initialiser {
         initPlayer();
         initLocations();
         initGameStateManager();
-        viewModelManager = new ViewModelManager(gameManager, activity);
-        dashboardViewModel = new DashboardViewModel(gameManager, viewModelManager);
+        contentViewModelDao = new ContentViewModelDao(gameManager, activity);
+        dashboardViewModel = new DashboardViewModel(gameManager, contentViewModelDao);
         activity.initDashboard(dashboardViewModel);
     }
 
@@ -41,8 +49,8 @@ public class Initialiser {
 
     private void initGameStateManager() {
         Equipment equipment = new Equipment(50, 50, 2);
-        GameState gameState = new GameState("11:00", home);
-        this.gameManager = new GameManager(gameState, player, equipment);
+        CurrentState currentState = new CurrentState("11:00", home);
+        this.gameManager = new GameManager(currentState, player, equipment);
     }
 
 }

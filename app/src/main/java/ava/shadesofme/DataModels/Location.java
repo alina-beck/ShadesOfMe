@@ -1,6 +1,8 @@
-package ava.shadesofme;
+package ava.shadesofme.DataModels;
 
 import java.util.ArrayList;
+
+import ava.shadesofme.DataModels.Item;
 
 public class Location {
 

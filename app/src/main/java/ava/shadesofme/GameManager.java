@@ -2,26 +2,32 @@ package ava.shadesofme;
 
 import java.util.ArrayList;
 
+import ava.shadesofme.DataModels.Item;
+import ava.shadesofme.DataModels.Location;
+import ava.shadesofme.GameState.CurrentState;
+import ava.shadesofme.GameState.Equipment;
+import ava.shadesofme.GameState.Player;
+
 public class GameManager {
 
-    private GameState gameState;
+    private CurrentState currentState;
     private Player player;
     private Equipment equipment;
 
-    public GameManager(GameState gameState, Player player, Equipment equipment) {
-        this.gameState = gameState;
+    public GameManager(CurrentState currentState, Player player, Equipment equipment) {
+        this.currentState = currentState;
         this.player = player;
         this.equipment = equipment;
     }
 
     public void advanceTimeBy(int minutes) {
-        gameState.advanceTimeBy(minutes);
+        currentState.advanceTimeBy(minutes);
         player.updateStatsByTime(minutes);
     }
 
     public void goToLocation(Location newLocation, int minutes) {
         advanceTimeBy(minutes);
-        gameState.setCurrentLocation(newLocation);
+        currentState.setCurrentLocation(newLocation);
     }
 
     public ArrayList<Item> searchLocation(Location location) {
@@ -48,8 +54,8 @@ public class GameManager {
         equipment.add(item);
     }
 
-    public GameState getGameState() {
-        return  gameState;
+    public CurrentState getCurrentState() {
+        return currentState;
     }
 
     public Player getPlayer() {

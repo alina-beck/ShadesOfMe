@@ -1,4 +1,4 @@
-package ava.shadesofme;
+package ava.shadesofme.Content.Inventory;
 
 import android.databinding.Bindable;
 import android.os.Parcel;
@@ -11,7 +11,12 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-public class InventoryViewModel extends InnerViewModel implements Observer {
+import ava.shadesofme.Content.ContentViewModel;
+import ava.shadesofme.DataModels.Item;
+import ava.shadesofme.GameManager;
+import ava.shadesofme.GameState.Equipment;
+
+public class InventoryViewModel extends ContentViewModel implements Observer {
 
     private int numberOfSlots;
     private String maxWeight;

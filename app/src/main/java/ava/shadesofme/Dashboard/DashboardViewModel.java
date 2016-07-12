@@ -1,4 +1,4 @@
-package ava.shadesofme;
+package ava.shadesofme.Dashboard;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -7,6 +7,11 @@ import android.os.Parcelable;
 
 import java.util.Observable;
 import java.util.Observer;
+
+import ava.shadesofme.GameManager;
+import ava.shadesofme.GameState.CurrentState;
+import ava.shadesofme.GameState.Player;
+import ava.shadesofme.Content.ContentViewModelDao;
 
 public class DashboardViewModel extends BaseObservable implements Parcelable, Observer {
 
@@ -23,11 +28,11 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
     private String currentHealth;
     private String buttonText;
     private GameManager gameManager;
-    private ViewModelManager viewModelManager;
+    private ContentViewModelDao contentViewModelDao;
 
-    public DashboardViewModel(GameManager gameManager, ViewModelManager viewModelManager) {
-        this.currentLocation = gameManager.getGameState().getCurrentLocation().getName();
-        this.currentTime = gameManager.getGameState().getCurrentTime();
+    public DashboardViewModel(GameManager gameManager, ContentViewModelDao contentViewModelDao) {
+        this.currentLocation = gameManager.getCurrentState().getCurrentLocation().getName();
+        this.currentTime = gameManager.getCurrentState().getCurrentTime();
 
         Player player = gameManager.getPlayer();
         this.maxSatiety = String.valueOf(player.getMaxSatiety());
@@ -38,7 +43,7 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
         this.currentHealth = String.valueOf(player.getCurrentHealth());
         this.buttonText = BUTTON_INVENTORY;
         this.gameManager = gameManager;
-        this.viewModelManager = viewModelManager;
+        this.contentViewModelDao = contentViewModelDao;
     }
 
     /**
@@ -51,12 +56,12 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
 
     public void inventoryButtonClicked() {
         if(getButtonText().equals(BUTTON_INVENTORY)) {
-            viewModelManager.buttonClicked(BUTTON_INVENTORY);
+            contentViewModelDao.buttonClicked(BUTTON_INVENTORY);
             setCurrentLocation("Inventory");
             setButtonText(BUTTON_BACK);
         }
         else if(getButtonText().equals(BUTTON_BACK)) {
-            setCurrentLocation(gameManager.getGameState().getCurrentLocation().getName());
+            setCurrentLocation(gameManager.getCurrentState().getCurrentLocation().getName());
             setButtonText(BUTTON_INVENTORY);
         }
     }
@@ -80,13 +85,13 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
             }
         }
 
-        else if(observable instanceof GameState) {
-            GameState gameState = (GameState) observable;
-            if(!gameState.getCurrentTime().equals(currentTime)) {
-                setCurrentTime(gameState.getCurrentTime());
+        else if(observable instanceof CurrentState) {
+            CurrentState currentState = (CurrentState) observable;
+            if(!currentState.getCurrentTime().equals(currentTime)) {
+                setCurrentTime(currentState.getCurrentTime());
             }
-            if(!gameState.getCurrentLocation().getName().equals(currentLocation)) {
-                setCurrentLocation(gameState.getCurrentLocation().getName());
+            if(!currentState.getCurrentLocation().getName().equals(currentLocation)) {
+                setCurrentLocation(currentState.getCurrentLocation().getName());
             }
         }
     }

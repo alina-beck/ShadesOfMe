@@ -1,6 +1,8 @@
-package ava.shadesofme;
+package ava.shadesofme.GameState;
 
 import java.util.Observable;
+
+import ava.shadesofme.DataModels.Item;
 
 public class Player extends Observable {
 

@@ -1,11 +1,15 @@
-package ava.shadesofme;
+package ava.shadesofme.Dashboard;
 
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import ava.shadesofme.MainActivity;
+import ava.shadesofme.R;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -30,7 +34,7 @@ public class DashboardEspressoTest {
 
     @Test
     public void currentLocationAndTimeAreDisplayed() {
-        onView(withId(R.id.text_location)).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.text_location)).check(matches(isDisplayed()));
         onView(withId(R.id.text_time)).check(matches(isDisplayed()));
     }
 

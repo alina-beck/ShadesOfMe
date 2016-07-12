@@ -1,8 +1,10 @@
-package ava.shadesofme;
+package ava.shadesofme.GameState;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+
+import ava.shadesofme.DataModels.Item;
 
 public class Equipment extends Observable {
 

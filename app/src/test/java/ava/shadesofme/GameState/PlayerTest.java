@@ -1,8 +1,12 @@
-package ava.shadesofme;
+package ava.shadesofme.GameState;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import ava.shadesofme.Dashboard.DashboardViewModel;
+import ava.shadesofme.DataModels.Item;
+import ava.shadesofme.GameState.Player;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.times;

@@ -1,14 +1,16 @@
-package ava.shadesofme;
+package ava.shadesofme.GameState;
 
 import java.util.Locale;
 import java.util.Observable;
 
-public class GameState extends Observable {
+import ava.shadesofme.DataModels.Location;
+
+public class CurrentState extends Observable {
 
     private String currentTime;
     private Location currentLocation;
 
-    public GameState(String currentTime, Location currentLocation) {
+    public CurrentState(String currentTime, Location currentLocation) {
         this.currentTime = currentTime;
         this.currentLocation = currentLocation;
     }

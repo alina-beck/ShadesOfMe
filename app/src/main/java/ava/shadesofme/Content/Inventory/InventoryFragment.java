@@ -1,13 +1,15 @@
-package ava.shadesofme;
+package ava.shadesofme.Content.Inventory;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ava.shadesofme.Content.ContentFragment;
+import ava.shadesofme.R;
 import ava.shadesofme.databinding.FragmentInventoryBinding;
 
-public class InventoryFragment extends InnerFragment implements View.OnClickListener {
+public class InventoryFragment extends ContentFragment implements View.OnClickListener {
 
     private InventoryViewModel viewModel;
 

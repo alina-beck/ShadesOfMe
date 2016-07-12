@@ -1,4 +1,4 @@
-package ava.shadesofme;
+package ava.shadesofme.DataModels;
 
 public class Item {
 

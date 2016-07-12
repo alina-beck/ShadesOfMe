@@ -1,4 +1,4 @@
-package ava.shadesofme;
+package ava.shadesofme.Content.Inventory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -6,6 +6,11 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ava.shadesofme.Content.Inventory.InventoryViewModel;
+import ava.shadesofme.DataModels.Item;
+import ava.shadesofme.GameManager;
+import ava.shadesofme.GameState.Equipment;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
