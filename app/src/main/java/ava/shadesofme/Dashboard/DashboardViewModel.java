@@ -41,6 +41,7 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
         this.currentSatiety = String.valueOf(player.getCurrentSatiety());
         this.currentEnergy = String.valueOf(player.getCurrentEnergy());
         this.currentHealth = String.valueOf(player.getCurrentHealth());
+
         this.buttonText = BUTTON_INVENTORY;
         this.gameManager = gameManager;
         this.contentViewModelDao = contentViewModelDao;
@@ -61,6 +62,7 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
             setButtonText(BUTTON_BACK);
         }
         else if(getButtonText().equals(BUTTON_BACK)) {
+            contentViewModelDao.buttonClicked(BUTTON_BACK);
             setCurrentLocation(gameManager.getCurrentState().getCurrentLocation().getName());
             setButtonText(BUTTON_INVENTORY);
         }

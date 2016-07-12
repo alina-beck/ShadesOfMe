@@ -7,6 +7,7 @@ import ava.shadesofme.MainActivity;
 public class ContentViewModelDao {
 
     private static final String INVENTORY = "Inventory";
+    private static final String BACK = "<";
     private GameManager gameManager;
     private MainActivity activity;
 
@@ -20,6 +21,14 @@ public class ContentViewModelDao {
         switch (buttonTarget) {
             case INVENTORY:
                 viewModel = new InventoryViewModel(gameManager);
+                break;
+            case BACK:
+                activity.onBackPressed();
+                return;
+            default:
+                // TODO: throw and handle exception
+                System.out.println("no such view model");
+                return;
         }
         activity.setInnerFragment(buttonTarget, viewModel);
     }

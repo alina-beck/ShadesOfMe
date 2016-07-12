@@ -34,14 +34,20 @@ public class MainActivity extends AppCompatActivity {
     public void setInnerFragment(String name, ContentViewModel viewModel) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(name, viewModel);
-        ContentFragment fragment = null;
+        ContentFragment fragment;
         switch (name) {
             case "Inventory":
                 fragment = new InventoryFragment();
+                break;
+            default:
+                // TODO: throw and handle exception
+                System.out.println("no such fragment");
+                return;
         }
         fragment.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.container_fragment_dashboard, fragment);
+        ft.addToBackStack(null);
         ft.commit();
     }
 }

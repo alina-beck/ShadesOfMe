@@ -13,6 +13,7 @@ import ava.shadesofme.R;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -84,5 +85,13 @@ public class DashboardEspressoTest {
         onView(withId(R.id.button_inventory)).perform(click());
         onView(withId(R.id.text_max_weight)).check(matches(withText("50")));
         onView(withId(R.id.text_max_weight)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void clickOnBackButtonHidesInventory() {
+        // testing one distinct feature to make sure InventoryFragment is not displayed
+        onView(withId(R.id.button_inventory)).perform(click());
+        onView(withText("<")).perform(click());
+        onView(withId(R.id.text_max_weight)).check(doesNotExist());
     }
 }
