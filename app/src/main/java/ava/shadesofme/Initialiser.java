@@ -19,6 +19,9 @@ public class Initialiser {
     private Location town;
     private GameManager gameManager;
     private ContentViewModelDao contentViewModelDao;
+    private Equipment equipment;
+    private Item itemOne;
+    private Item itemTwo;
 
     public Initialiser(MainActivity dashboardActivity) {
         this.activity = dashboardActivity;
@@ -26,11 +29,23 @@ public class Initialiser {
 
     public void startGame() {
         initPlayer();
+        initItems();
         initLocations();
         initGameStateManager();
         contentViewModelDao = new ContentViewModelDao(gameManager, activity);
         dashboardViewModel = new DashboardViewModel(gameManager, contentViewModelDao);
         activity.initDashboard(dashboardViewModel);
+        putItemsInEquipment();
+    }
+
+    private void initItems() {
+        this.itemOne = new Item("itemOne", null, 10, 0, 5, 10, 15, 3, 3, 1);
+        this.itemTwo = new Item("itemTwo", null, 20, 0, 10, 30, 50, 8, 8, 3);
+    }
+
+    private void putItemsInEquipment() {
+        equipment.add(itemOne);
+        equipment.add(itemTwo);
     }
 
     private void initPlayer() {
@@ -39,16 +54,17 @@ public class Initialiser {
 
     private void initLocations() {
         ArrayList<Item> items = new ArrayList<>();
-        items.add(new Item(null, 10, 0, 5, 10, 15, 3, 3, 1));
-        items.add(new Item(null, 20, 0, 10, 30, 50, 8, 8, 3));
+        items.add(itemOne);
+        items.add(itemOne);
         this.home = new Location("Home", items);
 
-        items.add(new Item(null, 10, 0, 0, 0, 10, 1, 1, 10));
+        items.add(new Item("testItemName", null, 10, 0, 0, 0, 10, 1, 1, 10));
         this.town = new Location("Town", items);
     }
 
     private void initGameStateManager() {
         Equipment equipment = new Equipment(50, 50, 2);
+        this.equipment = equipment;
         CurrentState currentState = new CurrentState("11:00", home);
         this.gameManager = new GameManager(currentState, player, equipment);
     }

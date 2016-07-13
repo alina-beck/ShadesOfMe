@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.SimpleAdapter;
 
 import ava.shadesofme.Content.ContentFragment;
 import ava.shadesofme.R;
@@ -27,6 +30,9 @@ public class InventoryFragment extends ContentFragment implements View.OnClickLi
 
         LinearLayout.LayoutParams fragmentSize = calculateFragmentSize();
         binding.containerFragmentContent.setLayoutParams(fragmentSize);
+
+        binding.gridEquipmentSlots.setAdapter(new SimpleAdapter(getContext(), viewModel.getItems(),
+                R.layout.equipment_slot, new String[] {"item_name"}, new int[] { R.id.text_slot_item}));
 
         return view;
     }

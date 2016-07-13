@@ -13,8 +13,9 @@ public class Item {
     private int stackable;
     private String name;
 
-    public Item(Item upgradeStage, int useTime, int upgradeTime, int satietyEffect, int energyEffect, int healthEffect,
+    public Item(String name, Item upgradeStage, int useTime, int upgradeTime, int satietyEffect, int energyEffect, int healthEffect,
                 int weight, int volume, int stackable) {
+        this.name = name;
         this.upgradeStage = upgradeStage;
         this.useTime = useTime;
         this.upgradeTime = upgradeTime;

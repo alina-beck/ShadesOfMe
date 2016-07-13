@@ -42,7 +42,7 @@ public class InventoryViewModel extends ContentViewModel implements Observer {
         List<Map<String, String>> transformedItems = new ArrayList<>();
         for(Item item : items) {
             Map<String, String> transformedItem = new HashMap<>();
-            transformedItem.put("name", item.getName());
+            transformedItem.put("item_name", item.getName());
             transformedItem.put("weight", String.valueOf(item.getWeight()));
             transformedItem.put("volume", String.valueOf(item.getVolume()));
             transformedItems.add(transformedItem);
