@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
     }
 
-    public void setInnerFragment(String name, ContentViewModel viewModel) {
+    public void setContentFragment(String name, ContentViewModel viewModel) {
         Bundle bundle = new Bundle();
         bundle.putParcelable(name, viewModel);
         ContentFragment fragment;

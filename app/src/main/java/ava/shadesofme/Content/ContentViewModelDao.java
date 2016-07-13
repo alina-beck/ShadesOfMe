@@ -17,7 +17,7 @@ public class ContentViewModelDao {
     }
 
     public void buttonClicked(String buttonTarget) {
-        ContentViewModel viewModel = null;
+        ContentViewModel viewModel;
         switch (buttonTarget) {
             case INVENTORY:
                 viewModel = new InventoryViewModel(gameManager);
@@ -30,6 +30,6 @@ public class ContentViewModelDao {
                 System.out.println("no such view model");
                 return;
         }
-        activity.setInnerFragment(buttonTarget, viewModel);
+        activity.setContentFragment(buttonTarget, viewModel);
     }
 }
