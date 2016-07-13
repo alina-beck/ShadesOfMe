@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import ava.shadesofme.Content.ContentFragment;
 import ava.shadesofme.R;
@@ -23,6 +24,9 @@ public class InventoryFragment extends ContentFragment implements View.OnClickLi
         viewModel = getArguments().getParcelable("Inventory");
         FragmentInventoryBinding binding = FragmentInventoryBinding.bind(view);
         binding.setInventoryVM(viewModel);
+
+        LinearLayout.LayoutParams fragmentSize = calculateFragmentSize();
+        binding.containerFragmentContent.setLayoutParams(fragmentSize);
 
         return view;
     }

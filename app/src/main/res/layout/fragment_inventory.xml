@@ -9,8 +9,9 @@
         android:layout_height="match_parent"
         android:gravity="bottom|start">
         <LinearLayout
-            android:layout_width="200dp"
-            android:layout_height="100dp"
+            android:id="@+id/container_fragment_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@color/colorAccent">
 
