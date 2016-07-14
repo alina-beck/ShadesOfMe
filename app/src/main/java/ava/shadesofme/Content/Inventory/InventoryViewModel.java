@@ -23,8 +23,8 @@ public class InventoryViewModel extends ContentViewModel implements Observer {
     private String maxVolume;
     private String currentWeight;
     private String currentVolume;
-    private GameManager gameManager;
     private List<Map<String, String>> items;
+    private GameManager gameManager;
 
     public InventoryViewModel(GameManager gameManager) {
         Equipment equipment = gameManager.getEquipment();
@@ -43,8 +43,8 @@ public class InventoryViewModel extends ContentViewModel implements Observer {
         for(Item item : items) {
             Map<String, String> transformedItem = new HashMap<>();
             transformedItem.put("item_name", item.getName());
-            transformedItem.put("weight", String.valueOf(item.getWeight()));
-            transformedItem.put("volume", String.valueOf(item.getVolume()));
+            transformedItem.put("item_weight", String.valueOf(item.getWeight()));
+            transformedItem.put("item_volume", String.valueOf(item.getVolume()));
             transformedItems.add(transformedItem);
         }
         return transformedItems;
@@ -70,6 +70,10 @@ public class InventoryViewModel extends ContentViewModel implements Observer {
                 setCurrentVolume(String.valueOf(equipment.getCurrentTotalVolume()));
             }
         }
+    }
+
+    public void itemClicked(String itemName) {
+
     }
 
     public String getCurrentWeight() {

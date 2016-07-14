@@ -4,16 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import ava.shadesofme.Content.ContentFragment;
 import ava.shadesofme.R;
 import ava.shadesofme.databinding.FragmentInventoryBinding;
 
-public class InventoryFragment extends ContentFragment implements View.OnClickListener {
+public class InventoryFragment extends ContentFragment implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private InventoryViewModel viewModel;
 
@@ -32,7 +32,10 @@ public class InventoryFragment extends ContentFragment implements View.OnClickLi
         binding.containerFragmentContent.setLayoutParams(fragmentSize);
 
         binding.gridEquipmentSlots.setAdapter(new SimpleAdapter(getContext(), viewModel.getItems(),
-                R.layout.equipment_slot, new String[] {"item_name"}, new int[] { R.id.text_slot_item}));
+                R.layout.equipment_slot, new String[] {"item_name", "item_weight", "item_volume"},
+                new int[] {R.id.text_slot_item_name, R.id.text_slot_item_weight, R.id.text_slot_item_volume}));
+
+        binding.gridEquipmentSlots.setOnItemClickListener(this);
 
         return view;
     }
@@ -40,5 +43,13 @@ public class InventoryFragment extends ContentFragment implements View.OnClickLi
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (view.getId() == R.id.text_slot_item_name) {
+            String itemName = ((TextView) view).getText().toString();
+            viewModel.itemClicked(itemName);
+        }
     }
 }
