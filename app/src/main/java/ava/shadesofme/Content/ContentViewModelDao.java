@@ -1,5 +1,7 @@
 package ava.shadesofme.Content;
 
+import ava.shadesofme.Content.Item.InventoryItemViewModel;
+import ava.shadesofme.DataModels.Item;
 import ava.shadesofme.GameManager;
 import ava.shadesofme.Content.Inventory.InventoryViewModel;
 import ava.shadesofme.MainActivity;
@@ -35,7 +37,12 @@ public class ContentViewModelDao {
     }
 
     // not unit tested because this is a factory
-    public void itemClicked(String itemName) {
-        // TODO: think! is item in equipment - can be used? is item in location - can be picked up?
+    // TODO: handle item clicks from item view model (upgrading item must remove first item fragment from backstack)
+    public void itemClicked(Item item, ContentViewModel sourceViewModel) {
+        ContentViewModel viewModel = null;
+        if (sourceViewModel instanceof InventoryViewModel) {
+            viewModel = new InventoryItemViewModel(gameManager, item, this);
+        }
+        activity.setContentFragment("Inventory Item", viewModel);
     }
 }

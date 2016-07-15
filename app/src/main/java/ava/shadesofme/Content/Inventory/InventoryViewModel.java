@@ -76,7 +76,8 @@ public class InventoryViewModel extends ContentViewModel implements Observer {
     }
 
     public void itemClicked(String itemName) {
-        contentViewModelDao.itemClicked(itemName);
+        Item item = gameManager.getEquipment().getItemWithName(itemName);
+        contentViewModelDao.itemClicked(item, this);
     }
 
     public String getCurrentWeight() {

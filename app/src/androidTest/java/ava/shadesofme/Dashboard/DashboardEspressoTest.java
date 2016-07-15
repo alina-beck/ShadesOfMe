@@ -103,4 +103,12 @@ public class DashboardEspressoTest {
         onData(anything()).inAdapterView(withId(R.id.grid_equipment_slots)).atPosition(0).perform(click());
         onView(withId(R.id.text_location)).check(matches(not(withText("Inventory"))));
     }
+
+    @Test
+    public void clickOnItemDisplaysItemDetails() {
+        // testing one distinct feature to make sure InventoryItemFragment is displayed
+        onView(withId(R.id.button_inventory)).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.grid_equipment_slots)).atPosition(0).perform(click());
+        onView(withId(R.id.text_item_description)).check(matches(isDisplayed()));
+    }
 }

@@ -13,6 +13,7 @@ import ava.shadesofme.GameManager;
 import ava.shadesofme.GameState.Equipment;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -93,7 +94,7 @@ public class InventoryViewModelTest {
     @Test
     public void whenItemClickedAlertsViewModelDAO() {
         inventoryViewModel.itemClicked("Test Item");
-        verify(mockViewModelDao).itemClicked("Test Item");
+        verify(mockViewModelDao).itemClicked(Mockito.any(Item.class), eq(inventoryViewModel));
     }
 
     /**

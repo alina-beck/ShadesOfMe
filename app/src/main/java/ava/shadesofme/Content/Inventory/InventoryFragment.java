@@ -42,8 +42,8 @@ public class InventoryFragment extends ContentFragment implements AdapterView.On
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (view.getId() == R.id.text_slot_item_name) {
-            String itemName = ((TextView) view).getText().toString();
+        if (view.getId() == R.id.ll_equipment_slot) {
+            String itemName = ((TextView) view.findViewById(R.id.text_slot_item_name)).getText().toString();
             viewModel.itemClicked(itemName);
         }
     }

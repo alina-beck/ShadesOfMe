@@ -7,6 +7,7 @@ import android.os.Bundle;
 import ava.shadesofme.Content.ContentFragment;
 import ava.shadesofme.Content.ContentViewModel;
 import ava.shadesofme.Content.Inventory.InventoryFragment;
+import ava.shadesofme.Content.Item.InventoryItemFragment;
 import ava.shadesofme.Dashboard.DashboardFragment;
 import ava.shadesofme.Dashboard.DashboardViewModel;
 
@@ -38,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
         switch (name) {
             case "Inventory":
                 fragment = new InventoryFragment();
+                break;
+            case "Inventory Item":
+                fragment = new InventoryItemFragment();
                 break;
             default:
                 // TODO: throw and handle exception

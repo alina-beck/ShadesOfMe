@@ -39,8 +39,8 @@ public class Initialiser {
     }
 
     private void initItems() {
-        this.itemOne = new Item("itemOne", null, 10, 0, 5, 10, 15, 3, 3, 1);
-        this.itemTwo = new Item("itemTwo", null, 20, 0, 10, 30, 50, 8, 8, 3);
+        this.itemOne = new Item("itemOne", "this is the description for item one", null, 10, 0, 5, 10, 15, 3, 3, 1);
+        this.itemTwo = new Item("itemTwo", "this is the description for item two", null, 20, 0, 10, 30, 50, 8, 8, 3);
     }
 
     private void putItemsInEquipment() {
@@ -58,7 +58,7 @@ public class Initialiser {
         items.add(itemOne);
         this.home = new Location("Home", items);
 
-        items.add(new Item("testItemName", null, 10, 0, 0, 0, 10, 1, 1, 10));
+        items.add(new Item("testItemName", "this is the description for another item", null, 10, 0, 0, 0, 10, 1, 1, 10));
         this.town = new Location("Town", items);
     }
 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="inventoryItemVM" type="ava.shadesofme.Content.Item.InventoryItemViewModel"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom|start">
+        <LinearLayout
+            android:id="@+id/container_fragment_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/colorAccent">
+
+            <TextView
+                android:id="@+id/text_item_description"
+                android:text="@{inventoryItemVM.itemDescription}"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/button_item_use"
+                android:text="@{inventoryItemVM.useButtonText}"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/button_item_upgrade"
+                android:text="@{inventoryItemVM.upgradeButtonText}"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</layout>

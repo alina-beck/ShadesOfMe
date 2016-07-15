@@ -12,10 +12,12 @@ public class Item {
     private int volume;
     private int stackable;
     private String name;
+    private String description;
 
-    public Item(String name, Item upgradeStage, int useTime, int upgradeTime, int satietyEffect, int energyEffect, int healthEffect,
+    public Item(String name, String description, Item upgradeStage, int useTime, int upgradeTime, int satietyEffect, int energyEffect, int healthEffect,
                 int weight, int volume, int stackable) {
         this.name = name;
+        this.description = description;
         this.upgradeStage = upgradeStage;
         this.useTime = useTime;
         this.upgradeTime = upgradeTime;
@@ -65,5 +67,9 @@ public class Item {
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

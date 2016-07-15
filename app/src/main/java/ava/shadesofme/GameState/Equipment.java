@@ -115,4 +115,13 @@ public class Equipment extends Observable {
     public int getTotalSlots() {
         return totalSlots;
     }
+
+    public Item getItemWithName(String itemName) {
+        for (Item item : getItems()) {
+            if (item.getName().equals(itemName)) {
+                return item;
+            }
+        }
+        return null;
+    }
 }
