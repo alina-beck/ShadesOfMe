@@ -8,6 +8,7 @@ import android.os.Parcelable;
 import java.util.Observable;
 import java.util.Observer;
 
+import ava.shadesofme.DataModels.Item;
 import ava.shadesofme.GameManager;
 import ava.shadesofme.GameState.CurrentState;
 import ava.shadesofme.GameState.Player;
@@ -18,6 +19,7 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
     private static final String BUTTON_INVENTORY = "Inventory";
     private static final String BUTTON_BACK = "<";
 
+    // TODO: make observable string current title, to save update logic - can be location, can be item name, can be inventory...
     private String currentLocation;
     private String currentTime;
     private String maxSatiety;
@@ -66,6 +68,10 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
             setCurrentLocation(gameManager.getCurrentState().getCurrentLocation().getName());
             setButtonText(BUTTON_INVENTORY);
         }
+    }
+
+    public void itemClicked(Item item) {
+        setCurrentLocation(item.getName());
     }
 
     /**

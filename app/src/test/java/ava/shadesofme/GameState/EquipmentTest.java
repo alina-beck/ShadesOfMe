@@ -109,6 +109,11 @@ public class EquipmentTest {
     }
 
     @Test
+    public void returnsFalseWhenItemIsNotInEquipment() {
+        assertFalse(equipment.remove(mockItem));
+    }
+
+    @Test
     public void upgradesItemByReplacingIt() {
         // TODO: check for conditions before upgrading, rename method to upgrade
         setUpMockItemsInEquipment();

@@ -13,7 +13,7 @@ import ava.shadesofme.Content.ContentFragment;
 import ava.shadesofme.R;
 import ava.shadesofme.databinding.FragmentInventoryBinding;
 
-public class InventoryFragment extends ContentFragment implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class InventoryFragment extends ContentFragment implements AdapterView.OnItemClickListener {
 
     private InventoryViewModel viewModel;
 
@@ -38,11 +38,6 @@ public class InventoryFragment extends ContentFragment implements View.OnClickLi
         binding.gridEquipmentSlots.setOnItemClickListener(this);
 
         return view;
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 
     @Override

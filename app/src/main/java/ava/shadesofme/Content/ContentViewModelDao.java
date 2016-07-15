@@ -16,11 +16,12 @@ public class ContentViewModelDao {
         this.activity = activity;
     }
 
+    // not unit tested because this is a factory
     public void buttonClicked(String buttonTarget) {
         ContentViewModel viewModel;
         switch (buttonTarget) {
             case INVENTORY:
-                viewModel = new InventoryViewModel(gameManager);
+                viewModel = new InventoryViewModel(gameManager, this);
                 break;
             case BACK:
                 activity.onBackPressed();
@@ -31,5 +32,10 @@ public class ContentViewModelDao {
                 return;
         }
         activity.setContentFragment(buttonTarget, viewModel);
+    }
+
+    // not unit tested because this is a factory
+    public void itemClicked(String itemName) {
+        // TODO: think! is item in equipment - can be used? is item in location - can be picked up?
     }
 }

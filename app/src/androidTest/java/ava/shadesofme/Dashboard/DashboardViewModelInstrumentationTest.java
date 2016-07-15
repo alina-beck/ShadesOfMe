@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 import ava.shadesofme.Content.ContentViewModelDao;
-import ava.shadesofme.Dashboard.DashboardViewModel;
 import ava.shadesofme.DataModels.Location;
 import ava.shadesofme.GameManager;
 import ava.shadesofme.GameState.CurrentState;

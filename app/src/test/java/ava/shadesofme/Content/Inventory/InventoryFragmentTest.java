@@ -1,6 +1,9 @@
 package ava.shadesofme.Content.Inventory;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.TextView;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,8 +14,15 @@ import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import ava.shadesofme.BuildConfig;
+import ava.shadesofme.R;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 16)
@@ -34,5 +44,14 @@ public class InventoryFragmentTest {
     @Test
     public void isNotNull() {
         assertNotNull(inventoryFragment);
+    }
+
+    @Test
+    public void clickOnItemAlertsViewModel() {
+        TextView view = Mockito.mock(TextView.class);
+        when(view.getId()).thenReturn(R.id.text_slot_item_name);
+        when(view.getText()).thenReturn("Test Item");
+        inventoryFragment.onItemClick(null, view, 0, 0);
+        verify(mockInventoryViewModel).itemClicked("Test Item");
     }
 }

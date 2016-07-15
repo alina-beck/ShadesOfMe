@@ -12,6 +12,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import ava.shadesofme.Content.ContentViewModel;
+import ava.shadesofme.Content.ContentViewModelDao;
 import ava.shadesofme.DataModels.Item;
 import ava.shadesofme.GameManager;
 import ava.shadesofme.GameState.Equipment;
@@ -25,8 +26,9 @@ public class InventoryViewModel extends ContentViewModel implements Observer {
     private String currentVolume;
     private List<Map<String, String>> items;
     private GameManager gameManager;
+    private ContentViewModelDao contentViewModelDao;
 
-    public InventoryViewModel(GameManager gameManager) {
+    public InventoryViewModel(GameManager gameManager, ContentViewModelDao contentViewModelDao) {
         Equipment equipment = gameManager.getEquipment();
 
         this.numberOfSlots = equipment.getTotalSlots();
@@ -36,6 +38,7 @@ public class InventoryViewModel extends ContentViewModel implements Observer {
         this.currentVolume = String.valueOf(equipment.getCurrentTotalVolume());
         this.items = transformItemList(equipment.getItems());
         this.gameManager = gameManager;
+        this.contentViewModelDao = contentViewModelDao;
     }
 
     private List<Map<String, String>> transformItemList(List<Item> items) {
@@ -73,7 +76,7 @@ public class InventoryViewModel extends ContentViewModel implements Observer {
     }
 
     public void itemClicked(String itemName) {
-
+        contentViewModelDao.itemClicked(itemName);
     }
 
     public String getCurrentWeight() {

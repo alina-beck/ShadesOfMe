@@ -7,12 +7,13 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 
-import ava.shadesofme.Content.Inventory.InventoryViewModel;
+import ava.shadesofme.Content.ContentViewModelDao;
 import ava.shadesofme.DataModels.Item;
 import ava.shadesofme.GameManager;
 import ava.shadesofme.GameState.Equipment;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class InventoryViewModelTest {
@@ -23,6 +24,7 @@ public class InventoryViewModelTest {
     private Item mockItemOne = Mockito.mock(Item.class);
     private Item mockItemTwo = Mockito.mock(Item.class);
     private List<Item> mockItems = new ArrayList<>();
+    private ContentViewModelDao mockViewModelDao = Mockito.mock(ContentViewModelDao.class);
 
     @Before
     public void setUp() {
@@ -32,7 +34,7 @@ public class InventoryViewModelTest {
         when(mockEquipment.getCurrentTotalWeight()).thenReturn(10);
         when(mockEquipment.getCurrentTotalVolume()).thenReturn(10);
         when(mockGameManager.getEquipment()).thenReturn(mockEquipment);
-        inventoryViewModel = new InventoryViewModel(mockGameManager);
+        inventoryViewModel = new InventoryViewModel(mockGameManager, mockViewModelDao);
     }
 
     private void setUpItemsInEquipment() {
@@ -46,7 +48,7 @@ public class InventoryViewModelTest {
         mockItems.add(mockItemTwo);
         when(mockEquipment.getItems()).thenReturn(mockItems);
         when(mockGameManager.getEquipment()).thenReturn(mockEquipment);
-        inventoryViewModel = new InventoryViewModel(mockGameManager);
+        inventoryViewModel = new InventoryViewModel(mockGameManager, mockViewModelDao);
     }
 
     /**
@@ -82,6 +84,16 @@ public class InventoryViewModelTest {
     public void setsUpListOfCarriedItemsInConstructor() {
         setUpItemsInEquipment();
         assertTrue(inventoryViewModel.getItems().get(0).containsValue("Name One"));
+    }
+
+    /**
+     * Reacts to user actions
+     */
+
+    @Test
+    public void whenItemClickedAlertsViewModelDAO() {
+        inventoryViewModel.itemClicked("Test Item");
+        verify(mockViewModelDao).itemClicked("Test Item");
     }
 
     /**
