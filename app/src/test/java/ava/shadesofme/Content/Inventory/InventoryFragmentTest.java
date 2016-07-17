@@ -46,12 +46,4 @@ public class InventoryFragmentTest {
         assertNotNull(inventoryFragment);
     }
 
-    @Test
-    public void clickOnItemAlertsViewModel() {
-        TextView view = Mockito.mock(TextView.class);
-        when(view.getId()).thenReturn(R.id.text_slot_item_name);
-        when(view.getText()).thenReturn("Test Item");
-        inventoryFragment.onItemClick(null, view, 0, 0);
-        verify(mockInventoryViewModel).itemClicked("Test Item");
-    }
 }

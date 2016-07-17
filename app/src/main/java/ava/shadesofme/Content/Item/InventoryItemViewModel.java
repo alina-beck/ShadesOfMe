@@ -4,6 +4,8 @@ import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Observable;
+
 import ava.shadesofme.Content.ContentViewModel;
 import ava.shadesofme.Content.ContentViewModelDao;
 import ava.shadesofme.DataModels.Item;
@@ -11,6 +13,8 @@ import ava.shadesofme.GameManager;
 
 public class InventoryItemViewModel extends ContentViewModel {
 
+    private final String NAV_BUTTON_TEXT = "<";
+    private String title;
     private String itemDescription;
     private String upgradeItem;
     private String useButtonText;
@@ -20,6 +24,7 @@ public class InventoryItemViewModel extends ContentViewModel {
     private ContentViewModelDao contentViewModelDao;
 
     public InventoryItemViewModel(GameManager gameManager, Item item, ContentViewModelDao contentViewModelDao) {
+        this.title = item.getName();
         this.itemDescription = item.getDescription();
         // TODO: take care of items without upgrade stage
         if (item.getUpgradeStage() != null) {
@@ -63,6 +68,15 @@ public class InventoryItemViewModel extends ContentViewModel {
         this.upgradeItem = in.readString();
         this.useButtonText = in.readString();
         this.upgradeButtonText = in.readString();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    @Override
+    public String getNavButtonText() {
+        return NAV_BUTTON_TEXT;
     }
 
     @Bindable
@@ -119,5 +133,10 @@ public class InventoryItemViewModel extends ContentViewModel {
         result = 31 * result + (useButtonText != null ? useButtonText.hashCode() : 0);
         result = 31 * result + (upgradeButtonText != null ? upgradeButtonText.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        // inherited from ContentViewModel
     }
 }

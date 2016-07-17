@@ -40,6 +40,6 @@ public class DashboardFragmentTest {
     @Test
     public void alertsViewModelOnInventoryButtonClick() {
         dashboardFragment.onClick(null);
-        verify(mockDashboardViewModel).inventoryButtonClicked();
+        verify(mockDashboardViewModel).navigationButtonClicked();
     }
 }

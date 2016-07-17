@@ -9,8 +9,10 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import ava.shadesofme.Content.Inventory.InventoryViewModel;
+import ava.shadesofme.Content.Item.InventoryItemViewModel;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 16)

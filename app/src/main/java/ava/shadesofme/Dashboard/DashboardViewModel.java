@@ -19,8 +19,7 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
     private static final String BUTTON_INVENTORY = "Inventory";
     private static final String BUTTON_BACK = "<";
 
-    // TODO: make observable string current title, to save update logic - can be location, can be item name, can be inventory...
-    private String currentLocation;
+    private String currentTitle;
     private String currentTime;
     private String maxSatiety;
     private String maxEnergy;
@@ -33,7 +32,12 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
     private ContentViewModelDao contentViewModelDao;
 
     public DashboardViewModel(GameManager gameManager, ContentViewModelDao contentViewModelDao) {
-        this.currentLocation = gameManager.getCurrentState().getCurrentLocation().getName();
+        if(gameManager.getCurrentState().getCurrentView() != null) {
+            this.currentTitle = gameManager.getCurrentState().getCurrentView().getTitle();
+        }
+        else {
+            this.currentTitle = "Main Screen";
+        }
         this.currentTime = gameManager.getCurrentState().getCurrentTime();
 
         Player player = gameManager.getPlayer();
@@ -57,21 +61,8 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
         gameManager.advanceTimeBy(30);
     }
 
-    public void inventoryButtonClicked() {
-        if(getButtonText().equals(BUTTON_INVENTORY)) {
-            contentViewModelDao.buttonClicked(BUTTON_INVENTORY);
-            setCurrentLocation("Inventory");
-            setButtonText(BUTTON_BACK);
-        }
-        else if(getButtonText().equals(BUTTON_BACK)) {
-            contentViewModelDao.buttonClicked(BUTTON_BACK);
-            setCurrentLocation(gameManager.getCurrentState().getCurrentLocation().getName());
-            setButtonText(BUTTON_INVENTORY);
-        }
-    }
-
-    public void itemClicked(Item item) {
-        setCurrentLocation(item.getName());
+    public void navigationButtonClicked() {
+        contentViewModelDao.buttonClicked(getButtonText());
     }
 
     /**
@@ -98,8 +89,9 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
             if(!currentState.getCurrentTime().equals(currentTime)) {
                 setCurrentTime(currentState.getCurrentTime());
             }
-            if(!currentState.getCurrentLocation().getName().equals(currentLocation)) {
-                setCurrentLocation(currentState.getCurrentLocation().getName());
+            if(!currentState.getCurrentView().getTitle().equals(currentTitle)) {
+                setCurrentTitle(currentState.getCurrentView().getTitle());
+                setButtonText(currentState.getCurrentView().getNavButtonText());
             }
         }
     }
@@ -109,8 +101,8 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
      */
 
     @Bindable
-    public String getCurrentLocation() {
-        return currentLocation;
+    public String getCurrentTitle() {
+        return currentTitle;
     }
 
     @Bindable
@@ -157,9 +149,9 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
      *  Bindable Setters --> remember to always call notifyPropertyChanged(BR.currentHealth);
      */
 
-    public void setCurrentLocation(String currentLocation) {
-        this.currentLocation = currentLocation;
-        notifyPropertyChanged(ava.shadesofme.BR.currentLocation);
+    public void setCurrentTitle(String currentTitle) {
+        this.currentTitle = currentTitle;
+        notifyPropertyChanged(ava.shadesofme.BR.currentTitle);
     }
 
     public void setCurrentTime(String currentTime) {
@@ -198,7 +190,7 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(currentLocation);
+        dest.writeString(currentTitle);
         dest.writeString(currentTime);
         dest.writeString(maxSatiety);
         dest.writeString(maxEnergy);
@@ -219,7 +211,7 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
     };
 
     private DashboardViewModel(Parcel in) {
-        this.currentLocation = in.readString();
+        this.currentTitle = in.readString();
         this.currentTime = in.readString();
         this.maxSatiety = in.readString();
         this.maxEnergy = in.readString();
@@ -236,7 +228,7 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
 
         DashboardViewModel that = (DashboardViewModel) o;
 
-        if (currentLocation != null ? !currentLocation.equals(that.currentLocation) : that.currentLocation != null)
+        if (currentTitle != null ? !currentTitle.equals(that.currentTitle) : that.currentTitle != null)
             return false;
         if (currentTime != null ? !currentTime.equals(that.currentTime) : that.currentTime != null)
             return false;
@@ -255,7 +247,7 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
 
     @Override
     public int hashCode() {
-        int result = currentLocation != null ? currentLocation.hashCode() : 0;
+        int result = currentTitle != null ? currentTitle.hashCode() : 0;
         result = 31 * result + (currentTime != null ? currentTime.hashCode() : 0);
         result = 31 * result + (maxSatiety != null ? maxSatiety.hashCode() : 0);
         result = 31 * result + (maxEnergy != null ? maxEnergy.hashCode() : 0);

@@ -10,7 +10,6 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
-import ava.shadesofme.Content.ContentViewModelDao;
 import ava.shadesofme.DataModels.Item;
 import ava.shadesofme.GameManager;
 import ava.shadesofme.GameState.Equipment;

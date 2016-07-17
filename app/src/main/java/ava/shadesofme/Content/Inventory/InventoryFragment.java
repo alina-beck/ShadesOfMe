@@ -10,6 +10,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import ava.shadesofme.Content.ContentFragment;
+import ava.shadesofme.Content.ContentViewModel;
 import ava.shadesofme.R;
 import ava.shadesofme.databinding.FragmentInventoryBinding;
 
@@ -46,5 +47,9 @@ public class InventoryFragment extends ContentFragment implements AdapterView.On
             String itemName = ((TextView) view.findViewById(R.id.text_slot_item_name)).getText().toString();
             viewModel.itemClicked(itemName);
         }
+    }
+
+    public ContentViewModel getViewModel() {
+        return viewModel;
     }
 }

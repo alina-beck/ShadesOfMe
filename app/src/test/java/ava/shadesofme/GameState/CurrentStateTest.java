@@ -4,9 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import ava.shadesofme.Content.ContentViewModel;
 import ava.shadesofme.Dashboard.DashboardViewModel;
 import ava.shadesofme.DataModels.Location;
-import ava.shadesofme.GameState.CurrentState;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.times;
@@ -17,10 +17,11 @@ public class CurrentStateTest {
     private CurrentState currentState;
     private Location mockLocation = Mockito.mock(Location.class);
     private DashboardViewModel mockViewModel = Mockito.mock(DashboardViewModel.class);
+    private ContentViewModel mockContentViewModel = Mockito.mock(ContentViewModel.class);
 
     @Before
     public void setUp() {
-        currentState = new CurrentState("14:00", mockLocation);
+        currentState = new CurrentState("14:00", mockLocation, mockContentViewModel);
     }
 
     /**
@@ -43,6 +44,16 @@ public class CurrentStateTest {
     public void currentGameTimeAdvancesPastTwentyFourHours() {
         currentState.advanceTimeBy(690);
         assertEquals("01:30", currentState.getCurrentTime());
+    }
+
+    /**
+     * View
+     */
+
+    @Test
+    public void updatesViewModelWhenAlertedOfChange() {
+        currentState.setCurrentView(mockContentViewModel);
+        assertEquals(mockContentViewModel, currentState.getCurrentView());
     }
 
     /**

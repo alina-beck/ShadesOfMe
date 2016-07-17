@@ -4,7 +4,9 @@ import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.widget.LinearLayout;
 
-public class ContentFragment extends Fragment {
+public abstract class ContentFragment extends Fragment {
+
+    public abstract ContentViewModel getViewModel();
 
     protected LinearLayout.LayoutParams calculateFragmentSize() {
 

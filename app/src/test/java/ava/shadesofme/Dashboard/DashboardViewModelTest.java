@@ -4,8 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import ava.shadesofme.Content.ContentViewModel;
 import ava.shadesofme.Content.ContentViewModelDao;
-import ava.shadesofme.Dashboard.DashboardViewModel;
 import ava.shadesofme.DataModels.Item;
 import ava.shadesofme.DataModels.Location;
 import ava.shadesofme.GameManager;
@@ -26,6 +26,7 @@ public class DashboardViewModelTest {
     private Player mockPlayer = Mockito.mock(Player.class);
     private Location mockLocation = Mockito.mock(Location.class);
     private Item mockItem = Mockito.mock(Item.class);
+    private ContentViewModel mockContentViewModel = Mockito.mock(ContentViewModel.class);
 
 
     @Before
@@ -34,6 +35,7 @@ public class DashboardViewModelTest {
         when(mockGameManager.getCurrentState()).thenReturn(mockCurrentState);
         when(mockCurrentState.getCurrentLocation()).thenReturn(mockLocation);
         when(mockCurrentState.getCurrentTime()).thenReturn("12:00");
+        when(mockCurrentState.getCurrentView()).thenReturn(mockContentViewModel);
         when(mockLocation.getName()).thenReturn(LOCATION_NAME);
         when(mockPlayer.getMaxSatiety()).thenReturn(100);
         when(mockPlayer.getMaxEnergy()).thenReturn(100);
@@ -41,6 +43,7 @@ public class DashboardViewModelTest {
         when(mockPlayer.getCurrentSatiety()).thenReturn(30);
         when(mockPlayer.getCurrentEnergy()).thenReturn(50);
         when(mockPlayer.getCurrentHealth()).thenReturn(80);
+        when(mockContentViewModel.getTitle()).thenReturn("Test Title");
         dashboardViewModel = new DashboardViewModel(mockGameManager, mockContentViewModelDao);
     }
 
@@ -49,8 +52,8 @@ public class DashboardViewModelTest {
      */
 
     @Test
-    public void setsUpCurrentLocationInConstructor() {
-        assertEquals(LOCATION_NAME, dashboardViewModel.getCurrentLocation());
+    public void setsUpCurrentTitleInConstructor() {
+        assertEquals("Test Title", dashboardViewModel.getCurrentTitle());
     }
 
     @Test
@@ -89,27 +92,15 @@ public class DashboardViewModelTest {
     }
 
     /**
-     * Navigation and title bar changes
+     * Navigation and title changes
      */
 
     @Test
-    public void showsInventoryInsteadOfLocationWhenNavigatingToInventory() {
-        dashboardViewModel.inventoryButtonClicked();
-        assertEquals("Inventory", dashboardViewModel.getCurrentLocation());
-    }
-
-    @Test
-    public void showsLocationWhenBackButtonClicked() {
-        dashboardViewModel.inventoryButtonClicked();
-        dashboardViewModel.inventoryButtonClicked();
-        assertEquals(LOCATION_NAME, dashboardViewModel.getCurrentLocation());
-    }
-
-    @Test
-    public void showsItemNameInsteadOfLocationWhenNavigatingToItem() {
-        when(mockItem.getName()).thenReturn("Test Item");
-        dashboardViewModel.itemClicked(mockItem);
-        assertEquals("Test Item", dashboardViewModel.getCurrentLocation());
+    public void showsNewTitleWhenViewModelChanges() {
+        when(mockContentViewModel.getTitle()).thenReturn("Test Title");
+        when(mockCurrentState.getCurrentView()).thenReturn(mockContentViewModel);
+        dashboardViewModel.update(mockCurrentState, null);
+        assertEquals("Test Title", dashboardViewModel.getCurrentTitle());
     }
 
     /**
@@ -152,15 +143,6 @@ public class DashboardViewModelTest {
         when(mockCurrentState.getCurrentTime()).thenReturn("17:00");
         dashboardViewModel.update(mockCurrentState, null);
         assertEquals("17:00", dashboardViewModel.getCurrentTime());
-    }
-
-    @Test
-    public void updatesCurrentLocationWhenGameStateChanges() {
-        Location newLocation = Mockito.mock(Location.class);
-        when(newLocation.getName()).thenReturn("new location");
-        when(mockCurrentState.getCurrentLocation()).thenReturn(newLocation);
-        dashboardViewModel.update(mockCurrentState, null);
-        assertEquals("new location", dashboardViewModel.getCurrentLocation());
     }
 
 }

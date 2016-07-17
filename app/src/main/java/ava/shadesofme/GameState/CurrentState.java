@@ -3,16 +3,19 @@ package ava.shadesofme.GameState;
 import java.util.Locale;
 import java.util.Observable;
 
+import ava.shadesofme.Content.ContentViewModel;
 import ava.shadesofme.DataModels.Location;
 
 public class CurrentState extends Observable {
 
     private String currentTime;
     private Location currentLocation;
+    private ContentViewModel currentView;
 
-    public CurrentState(String currentTime, Location currentLocation) {
+    public CurrentState(String currentTime, Location currentLocation, ContentViewModel currentView) {
         this.currentTime = currentTime;
         this.currentLocation = currentLocation;
+        this.currentView = currentView;
     }
 
     public void advanceTimeBy(int minutes) {
@@ -57,6 +60,16 @@ public class CurrentState extends Observable {
 
     public void setCurrentLocation(Location currentLocation) {
         this.currentLocation = currentLocation;
+        setChanged();
+        notifyObservers();
+    }
+
+    public ContentViewModel getCurrentView() {
+        return currentView;
+    }
+
+    public void setCurrentView(ContentViewModel contentViewModel) {
+        this.currentView = contentViewModel;
         setChanged();
         notifyObservers();
     }

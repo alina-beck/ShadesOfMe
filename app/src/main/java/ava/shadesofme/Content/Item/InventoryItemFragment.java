@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import ava.shadesofme.Content.ContentFragment;
+import ava.shadesofme.Content.ContentViewModel;
 import ava.shadesofme.R;
 import ava.shadesofme.databinding.FragmentItemInventoryBinding;
 
@@ -31,5 +32,9 @@ public class InventoryItemFragment extends ContentFragment {
         binding.containerFragmentContent.setLayoutParams(fragmentSize);
 
         return view;
+    }
+
+    public ContentViewModel getViewModel() {
+        return viewModel;
     }
 }

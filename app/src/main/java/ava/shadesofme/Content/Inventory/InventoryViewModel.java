@@ -17,8 +17,10 @@ import ava.shadesofme.DataModels.Item;
 import ava.shadesofme.GameManager;
 import ava.shadesofme.GameState.Equipment;
 
-public class InventoryViewModel extends ContentViewModel implements Observer {
+public class InventoryViewModel extends ContentViewModel {
 
+    private final String TITLE = "Inventory";
+    private final String NAV_BUTTON_TEXT = "<";
     private int numberOfSlots;
     private String maxWeight;
     private String maxVolume;
@@ -30,7 +32,6 @@ public class InventoryViewModel extends ContentViewModel implements Observer {
 
     public InventoryViewModel(GameManager gameManager, ContentViewModelDao contentViewModelDao) {
         Equipment equipment = gameManager.getEquipment();
-
         this.numberOfSlots = equipment.getTotalSlots();
         this.maxWeight = String.valueOf(equipment.getMaxTotalWeight());
         this.maxVolume = String.valueOf(equipment.getMaxTotalVolume());
@@ -78,6 +79,15 @@ public class InventoryViewModel extends ContentViewModel implements Observer {
     public void itemClicked(String itemName) {
         Item item = gameManager.getEquipment().getItemWithName(itemName);
         contentViewModelDao.itemClicked(item, this);
+    }
+
+    public String getTitle() {
+        return TITLE;
+    }
+
+    @Override
+    public String getNavButtonText() {
+        return NAV_BUTTON_TEXT;
     }
 
     public String getCurrentWeight() {

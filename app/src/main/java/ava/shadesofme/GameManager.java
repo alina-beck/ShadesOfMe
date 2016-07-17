@@ -2,6 +2,7 @@ package ava.shadesofme;
 
 import java.util.ArrayList;
 
+import ava.shadesofme.Content.ContentViewModel;
 import ava.shadesofme.DataModels.Item;
 import ava.shadesofme.DataModels.Location;
 import ava.shadesofme.GameState.CurrentState;
@@ -65,4 +66,9 @@ public class GameManager {
     public Equipment getEquipment() {
         return equipment;
     }
+
+    public void updateView(ContentViewModel viewModel) {
+        currentState.setCurrentView(viewModel);
+    }
+
 }
