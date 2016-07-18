@@ -4,27 +4,28 @@ import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Observable;
-
 import ava.shadesofme.Content.ContentViewModel;
 import ava.shadesofme.Content.ContentViewModelDao;
 import ava.shadesofme.DataModels.Item;
 import ava.shadesofme.GameManager;
 
+/** InventoryItemViewModels hold item data that should be displayed for Items opened from the inventory.
+ * It takes the concerned Item in the constructor and transforms the relevant data (usually into Strings)
+ * so that it can be bound to Views in the corresponding InventoryItemFragment using Android data binding.
+ *
+ * InventoryItemViewModels are also responsible for forwarding user actions that are triggered in the corresponding InventoryItemFragment.
+ */
+
 public class InventoryItemViewModel extends ContentViewModel {
 
-    private final String NAV_BUTTON_TEXT = "<";
-    private String title;
     private String itemDescription;
     private String upgradeItem;
     private String useButtonText;
     private String upgradeButtonText;
-    private GameManager gameManager;
     private Item item;
-    private ContentViewModelDao contentViewModelDao;
 
     public InventoryItemViewModel(GameManager gameManager, Item item, ContentViewModelDao contentViewModelDao) {
-        this.title = item.getName();
+        super(item.getName(), "<", gameManager, contentViewModelDao);
         this.itemDescription = item.getDescription();
         // TODO: take care of items without upgrade stage
         if (item.getUpgradeStage() != null) {
@@ -32,52 +33,20 @@ public class InventoryItemViewModel extends ContentViewModel {
         }
         this.useButtonText = "Use (" + String.valueOf(item.getUseTime()) + ")";
         this.upgradeButtonText = "Upgrade (" + String.valueOf(item.getUpgradeTime()) + ")";
-        this.gameManager = gameManager;
         this.item = item;
-        this.contentViewModelDao = contentViewModelDao;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void useButtonClicked() {
+        gameManager.useItem(item);
+        contentViewModelDao.buttonClicked("<");
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(getItemDescription());
-        dest.writeString(getUpgradeItem());
-        dest.writeString(getUseButtonText());
-        dest.writeString(getUpgradeButtonText());
+    public void upgradeButtonClicked() {
+        gameManager.upgradeItem(item);
+        contentViewModelDao.itemClicked(item.getUpgradeStage(), this);
     }
 
-    public static final Parcelable.Creator<InventoryItemViewModel> CREATOR = new Parcelable.Creator<InventoryItemViewModel>() {
-
-        @Override
-        public InventoryItemViewModel createFromParcel(Parcel in) {
-            return new InventoryItemViewModel(in);
-        }
-
-        @Override
-        public InventoryItemViewModel[] newArray(int size) {
-            return new InventoryItemViewModel[size];
-        }
-    };
-
-    private InventoryItemViewModel(Parcel in) {
-        this.itemDescription = in.readString();
-        this.upgradeItem = in.readString();
-        this.useButtonText = in.readString();
-        this.upgradeButtonText = in.readString();
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    @Override
-    public String getNavButtonText() {
-        return NAV_BUTTON_TEXT;
-    }
+    /** Bindable getters */
 
     @Bindable
     public String getItemDescription() {
@@ -99,15 +68,42 @@ public class InventoryItemViewModel extends ContentViewModel {
         return upgradeButtonText;
     }
 
-    public void useButtonClicked() {
-        gameManager.useItem(item);
-        contentViewModelDao.buttonClicked("<");
+    /** Parcelable implementation */
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(TYPE_INVENTORY_ITEM);
+        super.writeToParcel(dest, flags);
+        dest.writeString(getItemDescription());
+        dest.writeString(getUpgradeItem());
+        dest.writeString(getUseButtonText());
+        dest.writeString(getUpgradeButtonText());
+        // TODO (possibly): include item
     }
 
-    public void upgradeButtonClicked() {
-        gameManager.upgradeItem(item);
-        contentViewModelDao.itemClicked(item.getUpgradeStage(), this);
+    public static final Parcelable.Creator<InventoryItemViewModel> CREATOR = new Parcelable.Creator<InventoryItemViewModel>() {
+
+        @Override
+        public InventoryItemViewModel createFromParcel(Parcel source) {
+            source.readString(); // eliminate type - not needed in direct subclass creation
+            return new InventoryItemViewModel(source);
+        }
+
+        @Override
+        public InventoryItemViewModel[] newArray(int size) {
+            return new InventoryItemViewModel[size];
+        }
+    };
+
+    public InventoryItemViewModel(Parcel source) {
+        super(source);
+        this.itemDescription = source.readString();
+        this.upgradeItem = source.readString();
+        this.useButtonText = source.readString();
+        this.upgradeButtonText = source.readString();
     }
+
+    /** Equals and hashcode methods */
 
     @Override
     public boolean equals(Object o) {
@@ -133,10 +129,5 @@ public class InventoryItemViewModel extends ContentViewModel {
         result = 31 * result + (useButtonText != null ? useButtonText.hashCode() : 0);
         result = 31 * result + (upgradeButtonText != null ? upgradeButtonText.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public void update(Observable observable, Object data) {
-        // inherited from ContentViewModel
     }
 }

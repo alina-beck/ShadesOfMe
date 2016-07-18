@@ -70,5 +70,4 @@ public class GameManager {
     public void updateView(ContentViewModel viewModel) {
         currentState.setCurrentView(viewModel);
     }
-
 }
