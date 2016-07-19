@@ -3,7 +3,6 @@ package ava.shadesofme;
 import java.util.ArrayList;
 
 import ava.shadesofme.Content.ContentViewModelDao;
-import ava.shadesofme.Content.Item.InventoryItemViewModel;
 import ava.shadesofme.Dashboard.DashboardViewModel;
 import ava.shadesofme.DataModels.Item;
 import ava.shadesofme.DataModels.Location;
@@ -39,7 +38,7 @@ public class Initialiser {
         dashboardViewModel = new DashboardViewModel(gameManager, contentViewModelDao);
         putItemsInEquipment();
         registerObservers();
-        activity.initDashboard(dashboardViewModel);
+        activity.initDashboardFragment(dashboardViewModel);
     }
 
     private void registerObservers() {

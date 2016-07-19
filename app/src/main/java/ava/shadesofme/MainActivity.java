@@ -11,7 +11,17 @@ import ava.shadesofme.Content.Item.InventoryItemFragment;
 import ava.shadesofme.Dashboard.DashboardFragment;
 import ava.shadesofme.Dashboard.DashboardViewModel;
 
+/** Starting point for the game - the MainActivity is responsible for starting the Initialiser.
+ *
+ * The MainActivity acts as container for DashboardFragment and ContentFragments
+ * and manages the navigation between ContentFragments when prompted. */
+
 public class MainActivity extends AppCompatActivity {
+
+    // ViewModel names
+    public static final String DASHBOARD = "Dashboard";
+    public static final String INVENTORY = "Inventory";
+    public static final String INVENTORY_ITEM = "Inventory Item";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
         initialiser.startGame();
     }
 
-    public void initDashboard(DashboardViewModel dashboardViewModel) {
+    public void initDashboardFragment(DashboardViewModel dashboardViewModel) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable("dashboard_view_model", dashboardViewModel);
+        bundle.putParcelable(DASHBOARD, dashboardViewModel);
         DashboardFragment dashboardFragment = new DashboardFragment();
         dashboardFragment.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -37,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
         bundle.putParcelable(name, viewModel);
         ContentFragment fragment;
         switch (name) {
-            case "Inventory":
+            case INVENTORY:
                 fragment = new InventoryFragment();
                 break;
-            case "Inventory Item":
+            case INVENTORY_ITEM:
                 fragment = new InventoryItemFragment();
                 break;
             default:

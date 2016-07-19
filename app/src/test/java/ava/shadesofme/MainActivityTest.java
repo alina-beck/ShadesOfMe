@@ -9,10 +9,12 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import ava.shadesofme.Content.Inventory.InventoryViewModel;
-import ava.shadesofme.Content.Item.InventoryItemViewModel;
+import ava.shadesofme.Dashboard.DashboardViewModel;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+
+/** Integration and unit tests for MainActivity */
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 16)
@@ -20,6 +22,8 @@ public class MainActivityTest {
 
     private static final String INVENTORY = "Inventory";
     private MainActivity activity;
+    private Initialiser mockInitialiser = Mockito.mock(Initialiser.class);
+    private DashboardViewModel mockDashboardViewModel = Mockito.mock(DashboardViewModel.class);
     private InventoryViewModel mockInventoryViewModel = Mockito.mock(InventoryViewModel.class);
 
     @Before
@@ -32,14 +36,25 @@ public class MainActivityTest {
         assertNotNull(activity);
     }
 
+    /** Integration with Initialiser */
+
     @Test
-    public void addsDashboardFragmentOnCreate() {
+    public void startsGameOnCreate() {
+        verify(mockInitialiser).startGame();
+    }
+
+    /** Unit tests: adding Fragments */
+
+    @Test
+    public void addsDashboardFragmentToFragmentContainer() {
+        activity.initDashboardFragment(mockDashboardViewModel);
         assertNotNull(activity.getSupportFragmentManager().getFragments());
     }
 
     @Test
-    public void addsContentFragment() {
+    public void addsContentFragmentToFragmentContainer() {
         activity.setContentFragment(INVENTORY, mockInventoryViewModel);
         assertEquals(2, activity.getSupportFragmentManager().getFragments().size());
     }
+
 }
