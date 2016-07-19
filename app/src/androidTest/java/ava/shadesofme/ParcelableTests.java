@@ -13,8 +13,12 @@ import ava.shadesofme.Content.ContentViewModel;
 import ava.shadesofme.Content.ContentViewModelDao;
 import ava.shadesofme.Content.Inventory.InventoryViewModel;
 import ava.shadesofme.Content.Item.InventoryItemViewModel;
+import ava.shadesofme.Dashboard.DashboardViewModel;
 import ava.shadesofme.DataModels.Item;
+import ava.shadesofme.DataModels.Location;
+import ava.shadesofme.GameState.CurrentState;
 import ava.shadesofme.GameState.Equipment;
+import ava.shadesofme.GameState.Player;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -24,7 +28,30 @@ import static org.mockito.Mockito.when;
 @RunWith(AndroidJUnit4.class)
 public class ParcelableTests {
 
+    private DashboardViewModel dashboardViewModel;
     private ContentViewModel contentViewModel;
+
+    /** Set up the DashboardViewModel, mocking the needed dependencies */
+
+    private void setUpDashboardViewModel() {
+        Location mockLocation = Mockito.mock(Location.class);
+        CurrentState mockCurrentState = Mockito.mock(CurrentState.class);
+        Player mockPlayer = Mockito.mock(Player.class);
+        GameManager mockGameManager = Mockito.mock(GameManager.class);
+        ContentViewModelDao mockContentViewModelDao = Mockito.mock(ContentViewModelDao.class);
+        when(mockGameManager.getPlayer()).thenReturn(mockPlayer);
+        when(mockGameManager.getCurrentState()).thenReturn(mockCurrentState);
+        when(mockCurrentState.getCurrentLocation()).thenReturn(mockLocation);
+        when(mockCurrentState.getCurrentTime()).thenReturn("12:00");
+        when(mockLocation.getName()).thenReturn("Test Home");
+        when(mockPlayer.getMaxSatiety()).thenReturn(100);
+        when(mockPlayer.getMaxEnergy()).thenReturn(100);
+        when(mockPlayer.getMaxHealth()).thenReturn(100);
+        when(mockPlayer.getCurrentSatiety()).thenReturn(30);
+        when(mockPlayer.getCurrentEnergy()).thenReturn(50);
+        when(mockPlayer.getCurrentHealth()).thenReturn(80);
+        dashboardViewModel = new DashboardViewModel(mockGameManager, mockContentViewModelDao);
+    }
 
     /** Set up each ContentViewModel, mocking the needed dependencies */
 
@@ -81,7 +108,19 @@ public class ParcelableTests {
         assertEquals(contentViewModel, parceledViewModel);
     }
 
-    /** Test for each of the ViewModels */
+    /** Test for the DashboardViewModel */
+
+    @Test
+    public void dashboardViewModelIsParcelable() {
+        setUpDashboardViewModel();
+        Parcel parcel = Parcel.obtain();
+        dashboardViewModel.writeToParcel(parcel, 0);
+        parcel.setDataPosition(0);
+        DashboardViewModel parceledViewModel = DashboardViewModel.CREATOR.createFromParcel(parcel);
+        assertEquals(dashboardViewModel, parceledViewModel);
+    }
+
+    /** Test for each of the ContentViewModels */
 
     @Test
     public void inventoryViewModelIsParcelable() {

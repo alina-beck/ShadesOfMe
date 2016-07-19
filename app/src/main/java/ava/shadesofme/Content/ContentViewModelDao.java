@@ -40,7 +40,7 @@ public class ContentViewModelDao {
                 else {
                     // this will become obsolete when game initialisation is done correctly
                     DashboardViewModel dashboardViewModel = ((DashboardFragment) activity.getSupportFragmentManager().findFragmentById(R.id.container_fragment_dashboard)).getViewModel();
-                    dashboardViewModel.setButtonText("Inventory");
+                    dashboardViewModel.setNavigationButtonText("Inventory");
                     dashboardViewModel.setCurrentTitle("Main Screen");
                 }
                 return;

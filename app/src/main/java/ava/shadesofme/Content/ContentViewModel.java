@@ -29,13 +29,13 @@ public abstract class ContentViewModel extends BaseObservable implements Parcela
     protected static final String TYPE_INVENTORY_ITEM = "InventoryItem";
 
     protected String title;
-    protected String navButtonText;
+    protected String navigationButtonText;
     protected GameManager gameManager;
     protected ContentViewModelDao contentViewModelDao;
 
-    public ContentViewModel(String title, String navButtonText, GameManager gameManager, ContentViewModelDao contentViewModelDao) {
+    public ContentViewModel(String title, String navigationButtonText, GameManager gameManager, ContentViewModelDao contentViewModelDao) {
         this.title = title;
-        this.navButtonText = navButtonText;
+        this.navigationButtonText = navigationButtonText;
         this.gameManager = gameManager;
         this.contentViewModelDao = contentViewModelDao;
     }
@@ -53,8 +53,8 @@ public abstract class ContentViewModel extends BaseObservable implements Parcela
         return title;
     }
 
-    public String getNavButtonText() {
-        return navButtonText;
+    public String getNavigationButtonText() {
+        return navigationButtonText;
     }
 
     /** Parcelable implementation */
@@ -68,7 +68,7 @@ public abstract class ContentViewModel extends BaseObservable implements Parcela
     public void writeToParcel(Parcel dest, int flags) {
         // TODO (probably needed?): make GameManager and ContentViewModelDao parcelable and include them here. Or make them singletons?
         dest.writeString(getTitle());
-        dest.writeString(getNavButtonText());
+        dest.writeString(getNavigationButtonText());
     }
 
     public static final Creator<ContentViewModel> CREATOR = new Creator<ContentViewModel>() {
@@ -85,7 +85,7 @@ public abstract class ContentViewModel extends BaseObservable implements Parcela
 
     public ContentViewModel(Parcel in) {
         this.title = in.readString();
-        this.navButtonText = in.readString();
+        this.navigationButtonText = in.readString();
     }
 
     private static ContentViewModel createConcreteViewModel(Parcel source) {

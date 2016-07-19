@@ -8,18 +8,24 @@ import android.os.Parcelable;
 import java.util.Observable;
 import java.util.Observer;
 
-import ava.shadesofme.DataModels.Item;
 import ava.shadesofme.GameManager;
 import ava.shadesofme.GameState.CurrentState;
 import ava.shadesofme.GameState.Player;
 import ava.shadesofme.Content.ContentViewModelDao;
 
+/** The DashboardViewModel is responsible for holding all data that should permanently be visible to the player,
+ * in a format that can be bound to Views using Android data binding (usually Strings).
+ *
+ * It observes GameState objects so that the data (and in consequence the Views) stay up to date.
+ * It implements Parcelable so that it can be passed to the corresponding DashboardFragment.
+ */
+
 public class DashboardViewModel extends BaseObservable implements Parcelable, Observer {
 
     private static final String BUTTON_INVENTORY = "Inventory";
-    private static final String BUTTON_BACK = "<";
 
     private String currentTitle;
+    private String navigationButtonText;
     private String currentTime;
     private String maxSatiety;
     private String maxEnergy;
@@ -27,19 +33,19 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
     private String currentSatiety;
     private String currentEnergy;
     private String currentHealth;
-    private String buttonText;
     private GameManager gameManager;
     private ContentViewModelDao contentViewModelDao;
 
     public DashboardViewModel(GameManager gameManager, ContentViewModelDao contentViewModelDao) {
         if(gameManager.getCurrentState().getCurrentView() != null) {
             this.currentTitle = gameManager.getCurrentState().getCurrentView().getTitle();
+            this.navigationButtonText = gameManager.getCurrentState().getCurrentView().getNavigationButtonText();
         }
         else {
             this.currentTitle = "Main Screen";
+            this.navigationButtonText = BUTTON_INVENTORY;
         }
         this.currentTime = gameManager.getCurrentState().getCurrentTime();
-
         Player player = gameManager.getPlayer();
         this.maxSatiety = String.valueOf(player.getMaxSatiety());
         this.maxEnergy = String.valueOf(player.getMaxEnergy());
@@ -47,27 +53,19 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
         this.currentSatiety = String.valueOf(player.getCurrentSatiety());
         this.currentEnergy = String.valueOf(player.getCurrentEnergy());
         this.currentHealth = String.valueOf(player.getCurrentHealth());
-
-        this.buttonText = BUTTON_INVENTORY;
         this.gameManager = gameManager;
         this.contentViewModelDao = contentViewModelDao;
     }
-
-    /**
-     * Responding to button clicks
-     */
 
     public void restButtonClicked() {
         gameManager.advanceTimeBy(30);
     }
 
     public void navigationButtonClicked() {
-        contentViewModelDao.buttonClicked(getButtonText());
+        contentViewModelDao.buttonClicked(getNavigationButtonText());
     }
 
-    /**
-     * Updates after Observable changes
-     */
+    /** Update when Observable changes */
 
     @Override
     public void update(Observable observable, Object data) {
@@ -91,14 +89,12 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
             }
             if(!currentState.getCurrentView().getTitle().equals(currentTitle)) {
                 setCurrentTitle(currentState.getCurrentView().getTitle());
-                setButtonText(currentState.getCurrentView().getNavButtonText());
+                setNavigationButtonText(currentState.getCurrentView().getNavigationButtonText());
             }
         }
     }
 
-    /**
-     * Bindable Getters
-     */
+    /** Bindable Getters */
 
     @Bindable
     public String getCurrentTitle() {
@@ -141,13 +137,11 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
     }
 
     @Bindable
-    public String getButtonText() {
-        return buttonText;
+    public String getNavigationButtonText() {
+        return navigationButtonText;
     }
 
-    /**
-     *  Bindable Setters --> remember to always call notifyPropertyChanged(BR.currentHealth);
-     */
+    /** Setters */
 
     public void setCurrentTitle(String currentTitle) {
         this.currentTitle = currentTitle;
@@ -174,14 +168,12 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
         notifyPropertyChanged(ava.shadesofme.BR.currentHealth);
     }
 
-    public void setButtonText(String buttonText) {
-        this.buttonText = buttonText;
-        notifyPropertyChanged(ava.shadesofme.BR.buttonText);
+    public void setNavigationButtonText(String navigationButtonText) {
+        this.navigationButtonText = navigationButtonText;
+        notifyPropertyChanged(ava.shadesofme.BR.navigationButtonText);
     }
 
-    /**
-     *  Parcelable stuff, including equals and hashcode
-     */
+    /** Parcelable implementation */
 
     @Override
     public int describeContents() {
@@ -220,6 +212,8 @@ public class DashboardViewModel extends BaseObservable implements Parcelable, Ob
         this.currentEnergy = in.readString();
         this.currentHealth = in.readString();
     }
+
+    /** Equals and hashcode methods */
 
     @Override
     public boolean equals(Object o) {
