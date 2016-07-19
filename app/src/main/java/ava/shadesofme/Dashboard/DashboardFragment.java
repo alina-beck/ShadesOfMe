@@ -24,7 +24,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         FragmentDashboardBinding binding = FragmentDashboardBinding.bind(view);
         binding.setDashboardVM(viewModel);
 
-        binding.buttonInventory.setOnClickListener(this);
+        binding.buttonNavigation.setOnClickListener(this);
 
         return view;
     }

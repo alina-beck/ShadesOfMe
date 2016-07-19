@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 /** Tests if ViewModels are correctly packed and unpacked as Parcelables */
 
 @RunWith(AndroidJUnit4.class)
-public class ParcelableTests {
+public class ParcelableTest {
 
     private DashboardViewModel dashboardViewModel;
     private ContentViewModel contentViewModel;
