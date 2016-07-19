@@ -15,11 +15,13 @@ import ava.shadesofme.BuildConfig;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
 
+/** Integration and unit tests for DashboardFragment */
+
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 16)
 public class DashboardFragmentTest {
 
-    private static final String DASHBOARD_VIEW_MODEL = "dashboard_view_model";
+    private static final String VIEW_MODEL_NAME = "Dashboard";
     private DashboardFragment dashboardFragment;
     private DashboardViewModel mockDashboardViewModel = Mockito.mock(DashboardViewModel.class);
 
@@ -27,7 +29,7 @@ public class DashboardFragmentTest {
     public void setUp() {
         dashboardFragment = new DashboardFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(DASHBOARD_VIEW_MODEL, mockDashboardViewModel);
+        bundle.putParcelable(VIEW_MODEL_NAME, mockDashboardViewModel);
         dashboardFragment.setArguments(bundle);
         SupportFragmentTestUtil.startVisibleFragment(dashboardFragment);
     }
@@ -36,6 +38,8 @@ public class DashboardFragmentTest {
     public void isNotNull() {
         assertNotNull(dashboardFragment);
     }
+
+    /** Integration with DashboardViewModel */
 
     @Test
     public void alertsViewModelOnInventoryButtonClick() {

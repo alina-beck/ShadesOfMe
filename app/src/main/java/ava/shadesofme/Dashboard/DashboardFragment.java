@@ -9,8 +9,12 @@ import android.view.ViewGroup;
 import ava.shadesofme.R;
 import ava.shadesofme.databinding.FragmentDashboardBinding;
 
+/** The DashboardFragment displays data given by the DashboardViewModel and forwards click events to
+ * the ViewModel. */
+
 public class DashboardFragment extends Fragment implements View.OnClickListener {
 
+    private static final String VIEW_MODEL_NAME = "Dashboard";
     private DashboardViewModel viewModel;
 
     public DashboardFragment() {
@@ -20,7 +24,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        viewModel = getArguments().getParcelable("dashboard_view_model");
+        viewModel = getArguments().getParcelable(VIEW_MODEL_NAME);
         FragmentDashboardBinding binding = FragmentDashboardBinding.bind(view);
         binding.setDashboardVM(viewModel);
 
